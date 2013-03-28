@@ -31,7 +31,7 @@ public class Test {
         GestionaireFichier gf = new GestionaireFichier(GestionaireFichier.REP_IMAGES);
         MenuBarre schemaMenu = new MenuBarre();
 
-        SchemaVue schema = new SchemaVue(gf, GestionaireFichier.loadFileShemat("./text.txt"));
+        SchemaVue schema = new SchemaVue(gf, GestionaireFichier.loadFileShemat("./cercle.txt"));
 
         SchemaControleur controleur = new SchemaControleur(null/*vtp*/, hashBytes, schema, lecteurTexte, sentence);
         MenuBarreControleur mc = new MenuBarreControleur(schemaMenu, schema);

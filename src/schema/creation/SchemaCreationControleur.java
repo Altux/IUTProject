@@ -1,11 +1,15 @@
 package schema.creation;
 
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import schema.ActionCommande;
 import schema.GestionaireFichier;
 import schema.Picture;
 import schema.SchemaControleur;
@@ -15,12 +19,12 @@ import vtplayer.VTPlayerInterface;
 /**
  *
  */
-public class SchemaCreationControleur extends SchemaControleur /*implements ActionListener*/ {
+public class SchemaCreationControleur extends SchemaControleur implements ActionListener {
 
-    /**
-     * nombre de rotation qu'un éléments peut faire.
-     */
-    public final static int ROTATION = 4;
+//    /**
+//     * nombre de rotation qu'un éléments peut faire.
+//     */
+//    public final static int ROTATION = 4;
     /**
      * Image en cours de placement.
      */
@@ -90,34 +94,32 @@ public class SchemaCreationControleur extends SchemaControleur /*implements Acti
         }
     }
 
-    /*@Override
-     public void actionPerformed(ActionEvent e) {
-     Integer i = null;
-     switch (e.getActionCommand()) {
-     case CreationVue.ACTION_DELETE:
-     i = creationVue.delete();
-     break;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Integer i = null;
+        switch (e.getActionCommand()) {
+            case ActionCommande.AC_DELETE:
+                i = delete();
+                break;
 
-     case CreationVue.ACTION_ROTATE:
-     i = creationVue.rotation();
-     break;
+            case ActionCommande.AC_ROTATE:
+                i = rotation();
+                break;
 
-     //            case CreationVue.ACTION_SAVE:
-     //                try {
-     //                    creationVue.save();
-     //                } catch (FileNotFoundException ex) {
-     //                    Logger.getLogger(SchemaCreationControleur.class.getName()).log(Level.SEVERE, null, ex);
-     //                } catch (IOException ex) {
-     //                    Logger.getLogger(SchemaCreationControleur.class.getName()).log(Level.SEVERE, null, ex);
-     //                }
-     //                break;
-     }
-     if (i != null) {
-     vtpSet(i);
-     }
-     //creationVue.requestFocus();
-     }*/
-    
+            case ActionCommande.AC_ESCAPE:
+                escape();
+                break;
+
+            case ActionCommande.AC_CHANGEBIT:
+                i = changeBit();
+                break;
+        }
+        if (i != null) {
+            vtpSet(i);
+        }
+        //creationVue.requestFocus();
+    }
+
     /**
      * Permet de définir quel élément a le focus.
      *
@@ -147,9 +149,7 @@ public class SchemaCreationControleur extends SchemaControleur /*implements Acti
     }
 
     /**
-     * Si {
-     *
-     * @see #newPicture} n'est pas nul l'image aura le focus afin de permettre a
+     * Si {@link #newPicture} n'est pas nul l'image aura le focus afin de permettre a
      * l'utilisateur de mieux visualiser ou il click.
      *
      * @param pc l'image ce trouvent sous le pointeur de la souris
@@ -175,39 +175,114 @@ public class SchemaCreationControleur extends SchemaControleur /*implements Acti
     protected void escape() {
         newPicture = null;
         setFocusOn(null);
-        ((SchemaCreationVue) sv).setCursor(Cursor.getDefaultCursor());
+        creationVue.setCursor(Cursor.getDefaultCursor());
     }
 
+    /**
+     * Fonction permettant charger l'image après une rotation
+     *
+     * @return integer(i) : Code de l'image
+     */
     protected Integer rotation() {
         Integer i = null;
+        // Si l'image est differente de null
         if (newPicture != null) {
+
+            // on récupère le code de l'image
             i = newPicture.getCode();
 
+            // Si le code de l'image est différent de 0
             if (i != GestionaireFichier.EMPTY_PICTURE) {
-                // TODO mieux faire avec une boucle tant que null on cherche audessus sinon on retourne a zero ... de même en dessous
-                if (i % 10 == ROTATION) {
-                    i -= ROTATION;
-                }
-                i++;
-                newPicture = new Picture(gf.getPicture(i), i);
+                // Déclaration d'une variable de type image
+                Image image;
+                //On incrémente de 1 le 3e chiffre du code qui est celui de la rotation.
+                i = (((((int) (i / 10 + 1)) * 10) + i % 10));
 
+                // Si il n'y a pas d'image, on récupère l'image de base en changeant le chiffre de la rotation à 1
+                if ((image = gf.getPicture(i)) == null) {
+                    i = (((int) (i / 100)) * 10 + 1) * 10 + i % 10;
+                    image = gf.getPicture(i);
+                }
+
+                newPicture = new Picture(image, i);
+
+                // On change l'image du curseur
                 Cursor cursor = tk.createCustomCursor(newPicture.getImage(), new Point(1, 1), "Pointeur");
-                ((SchemaCreationVue) sv).setCursor(cursor);
+                creationVue.setCursor(cursor);
             }
         } else {
             if (old_focused != null) {
                 i = old_focused.getCode();
 
+                // Si le code de l'image est différent de 0
                 if (i != GestionaireFichier.EMPTY_PICTURE) {
-                    if (i % 10 == ROTATION) {
-                        i -= ROTATION;
+                    // Déclaration d'une variable de type image
+                    Image image;
+                    //On incrémente de 1 le 3e chiffre du code qui est celui de la rotation
+                    i = ((((int) i / 10 + 1) * 10) + i % 10);
+
+                    // Si il n'y a pas d'image, on récupère l'image de base en changeant le chiffre de la rotation à 1
+                    if ((image = gf.getPicture(i)) == null) {
+                        i = (((int) (i / 100)) * 10 + 1) * 10 + i % 10;
+                        image = gf.getPicture(i);
                     }
 
-                    i++;
-
                     old_focused.setCode(i);
-                    old_focused.setImage(gf.getPicture(i));
+                    old_focused.setImage(image);
                 }
+            }
+        }
+        return i;
+    }
+
+    /**
+     * Fonction qui permet de modifier le bit du code de l'image
+     *
+     * @return integer(i): Code de l'image
+     */
+    protected Integer changeBit() {
+        Integer i = null;
+        // Si l'image est differente de null
+        if (newPicture != null) {
+
+            // on récupère le code de l'image
+            i = newPicture.getCode();
+
+            // Si le code de l'image est différent de 0
+            if (i != GestionaireFichier.EMPTY_PICTURE) {
+
+                //On change le dernier chiffre du code en 1 ou 0
+                i = ((int) (i / 10)) * 10 + ((i % 10 == 1) ? 0 : 1);
+
+                //Recupère l'image associée au code après avoir effectuée une rotation
+                Image image = gf.getPicture(i);
+
+                newPicture = new Picture(image, i);
+
+                // On change l'image du curseur
+                Cursor cursor = tk.createCustomCursor(newPicture.getImage(), new Point(1, 1), "Pointeur");
+                creationVue.setCursor(cursor);
+            }
+        } else {
+            if (old_focused != null) {
+                i = old_focused.getCode();
+
+                // Si le code de l'image est différent de 0
+                if (i != GestionaireFichier.EMPTY_PICTURE) {
+
+                    //On change le dernier chiffre du code en 1 ou 0
+                    i = ((int) (i / 10)) * 10 + ((i % 10 == 1) ? 0 : 1);
+
+                    //Recupère l'image associée au code après avoir effectuée une rotation
+                    Image image = gf.getPicture(i);
+
+                    // On place le focus sur l'image
+                    old_focused.setCode(i);
+                    old_focused.setImage(image);
+
+                }
+
+
             }
         }
         return i;
@@ -222,7 +297,7 @@ public class SchemaCreationControleur extends SchemaControleur /*implements Acti
             // si l'on est en mode édition
             if (newPicture != null) {
                 i = newPicture.getCode();
-                // on remplace l'image est le code de celle-ci par celle séléctionner
+                // on remplace l'image est le code de celle-ci par celle séléctionnée
                 pc.setCode(i);
                 pc.setImage(newPicture.getImage());
             } else {
@@ -230,13 +305,13 @@ public class SchemaCreationControleur extends SchemaControleur /*implements Acti
                 setFocusOn(pc);
             }
         } else {
-            // on enleve le fucus sur tout les éléments de SchemaCreationVue
+            // on enleve le focus sur tous les éléments de SchemaCreationVue
             setFocusOn(null);
 
             newPicture = creationVue.getBarreOutil().getNewPicture(picture.getCode());
             // on remplace le curseur de la souris par celui de l'image
             Cursor curseur = tk.createCustomCursor(newPicture.getImage(), new Point(1, 1), "Pointeur");
-            sv.setCursor(curseur);
+            creationVue.setCursor(curseur);
         }
         return i;
     }

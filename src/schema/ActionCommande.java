@@ -42,4 +42,6 @@ public interface ActionCommande {
      * 
      */
     public final static String AC_ABOUT = "#ABOUT";
+    public final static String AC_ESCAPE = "#ESCAPE";
+    public final static String AC_CHANGEBIT = "#CHANGEBIT";
 }
