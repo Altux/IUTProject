@@ -63,6 +63,8 @@ abstract public class Config extends Observable {
      */
     abstract public int getKeyChangeBit();
 
+    abstract public int getKeySpatialization();
+    
     /**
      * Nécessite le redémarrage de l'application pour être pris en compte.
      *
