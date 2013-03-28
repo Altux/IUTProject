@@ -34,7 +34,7 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
         this.sentence = sentence;
         this.sv = shV;
     }
-    
+
     protected final void vtpSet(int code) {
         // si VTPlayer est brancher et fonctionnel
         if (vtp != null && vtp.isOpen()) {
@@ -51,12 +51,12 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
                 Logger.getLogger(SchemaControleur.class.getName()).log(Level.WARNING, null, ex);
             }
         }
-        
-        if(stm != null && sentence != null){
-            stm.setTexte(sentence.get(code));
+
+        if (stm != null && sentence != null) {
+            stm.setTexte(sentence.get(code / 100));
             //System.out.println("we try to read the text " + sentence.get(code));
         }
-        
+
         System.out.println(code);
     }
 
@@ -84,7 +84,7 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
         while (nbligtotal % 4 != 0) {
             nbligtotal++;
         }
-        
+
         return new Point((lastEntered.getLig() - 1) / Math.round(nbligtotal / 4), (lastEntered.getCol() - 1) / Math.round(nbcoltotal / 4));
 
 //        //on cherche combien d'image (porte) peut comptenir une zone 
@@ -120,7 +120,7 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
             //System.out.println(" ligne :" + lastEntered.getLig() + " colonne : " + lastEntered.getCol());
             //int[] position_zone = getZone();
             Point position_zone = getZone();
-            
+
             //pour avoir la colonne tableau [0] pour la ligne tableau [1]
             //position de la zone avec le synthèse vocal :
             stm.positionnement(position_zone/*[0], position_zone[1]*/);
@@ -134,11 +134,11 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
             }
         }
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
     }

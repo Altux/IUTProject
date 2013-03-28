@@ -1,6 +1,5 @@
 package schema.creation;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.io.FileNotFoundException;
@@ -184,7 +183,6 @@ public class SchemaCreationVue extends SchemaVue {
      *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String)
      */
     protected void addSouth(GridBagConstraints constraints, Image image) {
         constraints.gridy = nbLigne + startY;
@@ -203,7 +201,6 @@ public class SchemaCreationVue extends SchemaVue {
      *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String)
      */
     protected void addEast(GridBagConstraints constraints, Image image) {
         constraints.gridx = nbCol + startX;
@@ -222,7 +219,6 @@ public class SchemaCreationVue extends SchemaVue {
      *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String)
      */
     protected void addWest(GridBagConstraints constraints, Image image) {
         startX--;
@@ -242,7 +238,6 @@ public class SchemaCreationVue extends SchemaVue {
      *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String)
      */
     protected void addNorth(GridBagConstraints constraints, Image image) {
         startY--;
@@ -264,8 +259,6 @@ public class SchemaCreationVue extends SchemaVue {
      * @throws FileNotFoundException si le fichier n'a pas pu être trouver.
      * @throws IOException Si une erreur est survenu lors de l'écriture du
      * fichier.
-     * @see GestionaireFichier#saveFileSchema(java.util.ArrayList,
-     * java.lang.String)
      */
     public void save(String path) throws FileNotFoundException, IOException {
         if (nbLigne > 0 && nbCol > 0) {

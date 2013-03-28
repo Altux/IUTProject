@@ -10,7 +10,7 @@ import vtplayer.VTPlayerManager;
 
 /**
  *
- * @author godeau
+ * @author
  */
 public class Parametreur extends JDialog {
 

@@ -45,10 +45,22 @@ abstract public class Config extends Observable {
      */
     abstract public int getKeyRotation();
 
+    /**
+     * 
+     * @return 
+     */
     abstract public int getKeySuppresion();
-
+    
+    /**
+     * 
+     * @return 
+     */
     abstract public int getKeyEchapement();
-
+    
+    /**
+     * 
+     * @return 
+     */
     abstract public int getKeyChangeBit();
 
     /**

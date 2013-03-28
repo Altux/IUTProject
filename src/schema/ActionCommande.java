@@ -6,8 +6,17 @@ package schema;
  */
 public interface ActionCommande {
 
+    /**
+     * 
+     */
     public final static String AC_OPEN = "#OPEN";
+    /**
+     * 
+     */
     public final static String AC_EXIT = "#EXIT";
+    /**
+     * 
+     */
     public final static String AC_PREFERENCE = "#PREFERENCE";
     /**
      * Action dans le cas d'une demande de nouveau schéma.
@@ -21,10 +30,16 @@ public interface ActionCommande {
      * Action dans le cas d'une demande de sauvegarde.
      */
     public final static String AC_SAVE = "#SAVE";
+    /**
+     * 
+     */
     public final static String AC_SAVEAS = "#SAVEAS";
     /**
      * Action dans le cas d'une demande de rotation.
      */
     public final static String AC_ROTATE = "#ROTATE";
+    /**
+     * 
+     */
     public final static String AC_ABOUT = "#ABOUT";
 }

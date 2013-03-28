@@ -32,7 +32,7 @@ public class MenuBarre extends JMenuBar implements ActionCommande {
         fichier.add(newS);
         menuItems.add(newS);
         
-        JMenuItem open = new JMenuItem("Ouvrire");
+        JMenuItem open = new JMenuItem("Ouvrir");
         open.setMnemonic(KeyEvent.VK_O);
         open.setActionCommand(AC_OPEN);
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
@@ -53,9 +53,9 @@ public class MenuBarre extends JMenuBar implements ActionCommande {
         menuItems.add(saveAs);
         
         JMenuItem exit = new JMenuItem("Quitter");
-        exit.setMnemonic(KeyEvent.VK_E);
+        exit.setMnemonic(KeyEvent.VK_Q);
         exit.setActionCommand(AC_EXIT);
-        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         fichier.add(exit);
         menuItems.add(exit);
 

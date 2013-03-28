@@ -46,10 +46,7 @@ public class ParametreurModele {
     /**
      * Chemin par défaut ({@value #PATH_PICOTS_FILE}) vers le fichier de
      * configuration des picots. Le fichier est automatiquement généré grâce a 
-     * {
-     *
-     * @see #save()} ou {
-     * @see #save(java.lang.String)} (si vous voulez spécifier un chemin
+     * {@link #save()} ou {@link #save(java.lang.String)} (si vous voulez spécifier un chemin
      * particulier).
      * <u>Exemple de fichier valide :</u><br/>
      * 1{@value #DELIMITEUR}b9{@value #DELIMITEUR}5d{@value #DELIMITEUR}99{@value #DELIMITEUR}77<br/>
@@ -100,10 +97,8 @@ public class ParametreurModele {
      * Charge les fichier spécifier.
      *
      * @param pathPicot chemin vers le fichier de configuration des picots. Ce
-     * chemin est garder a en mémoire pour l'appel de {
-     * @see #save()}.
-     * @param pathDescription chemin vers le fichier de description. {
-     * @see #pathDescription}.
+     * chemin est garder a en mémoire pour l'appel de {@link #save()}.
+     * @param pathDescription chemin vers le fichier de description. {@link #pathDescription}.
      * @param onlyWarningPicotFile si est a vrai, un WARNING sera écrit sur le
      * terminal pour le fichier de configuration des picots (si celui-ci n'est
      * pas trouver). Sinon l'erreur sera reporter.
@@ -185,9 +180,7 @@ public class ParametreurModele {
     }
 
     /**
-     * Charge le fichier de description ({@value #PATH_DESCRIPTION_FILE}). Voir {
-     *
-     * @see #PATH_DESCRIPTION_FILE} pour le format de fichier.
+     * Charge le fichier de description ({@value #PATH_DESCRIPTION_FILE}). Voir {@link #PATH_DESCRIPTION_FILE} pour le format de fichier.
      *
      * @param hashMap map a remplir.
      * @throws FileNotFoundException si le fichier n'a pas été trouver.
@@ -261,8 +254,7 @@ public class ParametreurModele {
      *
      * @param index index des bytes voulue.
      * @return les bytes charger si il sont présent dans Map sinon NULLBYTES 
-     * ({
-     * @see VTPlayer#NULLBYTES}).
+     * ({@link VTPlayer#NULLBYTES}).
      */
     public Byte[] getPicots(Integer index) {
         Byte[] bytes = picots.get(index);
