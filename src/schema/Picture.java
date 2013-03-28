@@ -11,17 +11,29 @@ import javax.swing.JComponent;
  */
 public class Picture extends JComponent {
      /**
-      * code : code des images
-      * image : une image
-      * lig : position de l'image (ligne)
-      * col : position de l'image (colonne)
+      * code de l'image.
       */
-    protected Integer code;
+    protected int code;
+    /**
+     * image représentative de l'élément.
+     */
     protected Image image;
+    /**
+     * position de l'image.
+     */
     protected int lig;
+    /**
+     * position de l'image.
+     */
     protected int col;
 
-    public Picture(Image image, Integer code) {
+    /**
+     * 
+     * 
+     * @param image image représentent l'élément
+     * @param code code associé a l'élément
+     */
+    public Picture(Image image, int code) {
         this.code = code;
         this.image = image;
         setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
@@ -30,9 +42,8 @@ public class Picture extends JComponent {
     /**
      * @param image
      * @param code
-     * Constructeur d'image avec un code et une image 
      */
-    public Picture(Image image, Integer code, int lig, int col) {
+    public Picture(Image image, int code, int lig, int col) {
         this(image, code);
         this.lig = lig;
         this.col = col;
@@ -51,7 +62,7 @@ public class Picture extends JComponent {
      * 
      * @return code de image
      */
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
     /**

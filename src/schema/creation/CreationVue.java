@@ -3,8 +3,6 @@ package schema.creation;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -18,44 +16,44 @@ import schema.GestionaireFichier;
  */
 public class CreationVue extends JPanel {
 
-    /**
-     * Action dans le cas d'une demande de nouveau schéma.
-     * 
-     * @see #newSchema() 
-     */
-    public final static String ACTION_NEW = "#NEW";    
-    /**
-     * Action dans le cas d'une demande de suppression.
-     * 
-     * @see #delete() 
-     * @see KeyEvent#VK_DELETE
-     */
-    public final static String ACTION_DELETE = "#DELETE";
-    /**
-     * Action dans le cas d'une demande de sauvegarde.
-     * 
-     * @see #saveAs() 
-     * @see #save() 
-     */
-    public final static String ACTION_SAVE = "#SAVE";
-    /**
-     * Action dans le cas d'une demande de rotation.
-     * 
-     * @see KeyEvent#VK_R
-     * @see #rotation() 
-     */
-    public final static String ACTION_ROTATE = "#ROTATE";
-    /**
-     * Action dans le cas d'une demande d'ouverture d'une nouveau projet.
-     * 
-     * @see #openSchema() 
-     */
-    public final static String ACTION_OPEN = "#OPEN";
+//    /**
+//     * Action dans le cas d'une demande de nouveau schéma.
+//     * 
+//     * @see #newSchema() 
+//     */
+//    public final static String ACTION_NEW = "#NEW";    
+//    /**
+//     * Action dans le cas d'une demande de suppression.
+//     * 
+//     * @see #delete() 
+//     * @see KeyEvent#VK_DELETE
+//     */
+//    public final static String ACTION_DELETE = "#DELETE";
+//    /**
+//     * Action dans le cas d'une demande de sauvegarde.
+//     * 
+//     * @see #saveAs() 
+//     * @see #save() 
+//     */
+//    public final static String ACTION_SAVE = "#SAVE";
+//    /**
+//     * Action dans le cas d'une demande de rotation.
+//     * 
+//     * @see KeyEvent#VK_R
+//     * @see #rotation() 
+//     */
+//    public final static String ACTION_ROTATE = "#ROTATE";
+//    /**
+//     * Action dans le cas d'une demande d'ouverture d'une nouveau projet.
+//     * 
+//     * @see #openSchema() 
+//     */
+//    public final static String ACTION_OPEN = "#OPEN";
 
-    /**
-     * Barre d'outils d'action rapide.
-     * 
-     */
+//    /**
+//     * Barre d'outils d'action rapide.
+//     * 
+//     */
 //    protected class SchemaAction extends JPanel {
 //
 //        /**
@@ -145,29 +143,27 @@ public class CreationVue extends JPanel {
      * Lien vers le Gestionnaire de fichier.
      */
     protected GestionaireFichier gf;
-    /**
-     * Image en cours de placement.
-     */
-    //protected Picture newPicture;
-    /**
-     * Barre de menu en haut permettant les action rapide comme :
-     * @see #ACTION_DELETE
-     * @see #ACTION_NEW
-     * @see #ACTION_OPEN
-     * @see #ACTION_ROTATE
-     * @see #ACTION_SAVE
-     */
-    //protected SchemaAction schemaAction = new SchemaAction();
-    /**
-     * Accès au toolkit permettant de créer des icons.
-     */
-   // protected static Toolkit tk = Toolkit.getDefaultToolkit();
-    /**
-     * Chemin de sauvegarde.
-     * 
-     * @see #ACTION_SAVE
-     */
-    //protected String savePath = null;
+//    /**
+//     * Image en cours de placement.
+//     */
+//    protected Picture newPicture;
+//    /**
+//     * Barre de menu en haut permettant les action rapide comme :
+//     * @see #ACTION_DELETE
+//     * @see #ACTION_NEW
+//     * @see #ACTION_OPEN
+//     * @see #ACTION_ROTATE
+//     * @see #ACTION_SAVE
+//     */
+//    protected SchemaAction schemaAction = new SchemaAction();
+//    /**
+//     * Accès au toolkit permettant de créer des icons.
+//     */
+//    protected static Toolkit tk = Toolkit.getDefaultToolkit();
+//    /**
+//     * Chemin de sauvegarde.
+//     */
+//    protected String savePath = null;
 
     /**
      * Constructeur.
@@ -249,7 +245,7 @@ public class CreationVue extends JPanel {
         }
 
         // ajout de la vue du schéma au centre des quatres bouton
-        jPanel.add(scv, BorderLayout.CENTER);
+        jPanel.add(/*new JScrollPane(*/scv/*)*/, BorderLayout.CENTER);
         /* FIN DE GESTION DES BOUTONS D'AJOUT DE LIGNE */
 
         // ajout du tout a la vue
@@ -263,15 +259,7 @@ public class CreationVue extends JPanel {
      * Ajout du listener. Voir ci dessous pour les événements que celui doit 
      * obligatoirement gérer.
      * 
-     * @param cl listener a ajouter, doit implémenté {@see CreationListener}.
-     * @see #ACTION_DELETE pour {@see ActionListener}
-     * @see #ACTION_NEW pour {@see ActionListener}
-     * @see #ACTION_OPEN pour {@see ActionListener}
-     * @see #ACTION_ROTATE pour {@see ActionListener}
-     * @see #ACTION_SAVE pour {@see ActionListener}
-     * @see KeyEvent#VK_R pour {@see KeyListener}
-     * @see KeyEvent#VK_DELETE pour {@see KeyListener}
-     * @see KeyEvent#VK_ESCAPE pour {@see KeyListener}
+     * @param cl listener a ajouter, doit implémenté {@link CreationListener}.
      */
     public synchronized void addListener(SchemaCreationControleur cl) {
         addMouseListener(cl);
@@ -283,7 +271,7 @@ public class CreationVue extends JPanel {
      * Ajout un écouteur a la vue.
      * 
      * @param l Écouteur.
-     * @deprecated {@see #addListener(schema.creation.CreationListener)}.
+     * @deprecated {@link #addListener(schema.creation.CreationListener)}.
      */
     @Override
     public synchronized void addMouseListener(MouseListener l) {
@@ -291,157 +279,157 @@ public class CreationVue extends JPanel {
         bo.addMouseListener(l);
     }
 
-    /**
-     * Si {@see #newPicture} n'est pas nul l'image aura le focus afin de permettre 
-     * a l'utilisateur de mieux visualiser ou il click.
-     * 
-     * @param pc l'image ce trouvent sous le pointeur de la souris
-     */
-    /*public void enteredOn(PictureCreation pc) {
-        if (newPicture != null) {
-            scv.setFocusOn(pc);
-        }
-    }*/
+//    /**
+//     * Si {@link #newPicture} n'est pas nul l'image aura le focus afin de permettre 
+//     * a l'utilisateur de mieux visualiser ou il click.
+//     * 
+//     * @param pc l'image ce trouvent sous le pointeur de la souris
+//     */
+//    public void enteredOn(PictureCreation pc) {
+//        if (newPicture != null) {
+//            scv.setFocusOn(pc);
+//        }
+//    }
 
-    /**
-     * Enlève le focus de tout élément.
-     */
-    /*public void escape() {
-        newPicture = null;
-        scv.setFocusOn(null);
-        setCursor(Cursor.getDefaultCursor());
-    }*/
+//    /**
+//     * Enlève le focus de tout élément.
+//     */
+//    public void escape() {
+//        newPicture = null;
+//        scv.setFocusOn(null);
+//        setCursor(Cursor.getDefaultCursor());
+//    }
 
-    /**
-     * Supprime l'élément sélectionner.<br/>
-     * Cette action peut être enclenché par :<br/>
-     * - {@see #ACTION_DELETE}<br/>
-     * - {@see KeyEvent#VK_DELETE}
-     * 
-     * @return nul ou {@value GestionaireFichier#EMPTY_PICTURE} 
-     * ({@see GestionaireFichier#EMPTY_PICTURE}).
-     */
-    /*public Integer delete() {
-        PictureCreation pc = scv.getFocusElement();
-        if (pc != null) {
-            pc.setCode(GestionaireFichier.EMPTY_PICTURE);
-            pc.setImage(gf.getPicture(GestionaireFichier.EMPTY_PICTURE));
-            if (newPicture == null) {
-                scv.setFocusOn(null);
-            }
-            return GestionaireFichier.EMPTY_PICTURE;
-        }
-        return null;
-    }*/
+//    /**
+//     * Supprime l'élément sélectionner.<br/>
+//     * Cette action peut être enclenché par :<br/>
+//     * - {@link #ACTION_DELETE}<br/>
+//     * - {@link KeyEvent#VK_DELETE}
+//     * 
+//     * @return nul ou {@value GestionaireFichier#EMPTY_PICTURE} 
+//     * ({@link GestionaireFichier#EMPTY_PICTURE}).
+//     */
+//    public Integer delete() {
+//        PictureCreation pc = scv.getFocusElement();
+//        if (pc != null) {
+//            pc.setCode(GestionaireFichier.EMPTY_PICTURE);
+//            pc.setImage(gf.getPicture(GestionaireFichier.EMPTY_PICTURE));
+//            if (newPicture == null) {
+//                scv.setFocusOn(null);
+//            }
+//            return GestionaireFichier.EMPTY_PICTURE;
+//        }
+//        return null;
+//    }
 
-    /**
-     * Plusieurs comportement sont défini selon les cas :<br/>
-     * - si l'utilisateur est en train de placer des nouvelles portes la porte 
-     * sera tourner<br/>
-     * - si l'utilisateur est a sélectionner une case celle-ci de tourner<br/>
-     * - sinon rien ne sera fait de même si l'image correspond a 
-     * {@see GestionaireFichier#EMPTY_PICTURE}<br/>
-     * 
-     * Cette action peut être enclenché par :<br/>
-     * - {@see #ACTION_ROTATE}<br/>
-     * - {@see KeyEvent#VK_R}
-     * 
-     * @return nul ou le code de la nouvelle porte. 
-     */
-    /*public Integer rotation() {
-        Integer i = null;
-        if (newPicture != null) {
-            i = newPicture.getCode();
+//    /**
+//     * Plusieurs comportement sont défini selon les cas :<br/>
+//     * - si l'utilisateur est en train de placer des nouvelles portes la porte 
+//     * sera tourner<br/>
+//     * - si l'utilisateur est a sélectionner une case celle-ci de tourner<br/>
+//     * - sinon rien ne sera fait de même si l'image correspond a 
+//     * {@link GestionaireFichier#EMPTY_PICTURE}<br/>
+//     * 
+//     * Cette action peut être enclenché par :<br/>
+//     * - {@link #ACTION_ROTATE}<br/>
+//     * - {@link KeyEvent#VK_R}
+//     * 
+//     * @return nul ou le code de la nouvelle porte. 
+//     */
+//    public Integer rotation() {
+//        Integer i = null;
+//        if (newPicture != null) {
+//            i = newPicture.getCode();
+//
+//            if (i != GestionaireFichier.EMPTY_PICTURE) {
+//                if (i % 10 == GestionaireFichier.ROTATION) {
+//                    i -= GestionaireFichier.ROTATION;
+//                }
+//                i++;
+//                newPicture = new Picture(gf.getPicture(i), i);
+//
+//                Cursor cursor = tk.createCustomCursor(newPicture.getImage(), new Point(1, 1), "Pointeur");
+//                setCursor(cursor);
+//            }
+//        } else {
+//            PictureCreation pc = scv.getFocusElement();
+//            if (pc != null) {
+//                i = pc.getCode();
+//
+//                if (i != GestionaireFichier.EMPTY_PICTURE) {
+//                    if (i % 10 == GestionaireFichier.ROTATION) {
+//                        i -= GestionaireFichier.ROTATION;
+//                    }
+//
+//                    i++;
+//
+//                    pc.setCode(i);
+//                    pc.setImage(gf.getPicture(i));
+//                }
+//            }
+//        }
+//        return i;
+//    }
 
-            if (i != GestionaireFichier.EMPTY_PICTURE) {
-                if (i % 10 == GestionaireFichier.ROTATION) {
-                    i -= GestionaireFichier.ROTATION;
-                }
-                i++;
-                newPicture = new Picture(gf.getPicture(i), i);
+//    /**
+//     * Sauvegarde le fichier dans le répertoire pré-indiquer ({@link #savePath}), 
+//     * si celui ne l'ai pas l'utilisateur sera invité a le choisir ({@link #saveAs()}).
+//     * 
+//     * @throws FileNotFoundException si le fichier n'a pas pu être trouver.
+//     * @throws IOException si une erreur survient lors de l'écriture.
+//     * @see #saveAs() 
+//     */
+//    public void save() throws FileNotFoundException, IOException {
+//        if (savePath == null) {
+//            saveAs();
+//        } else {
+//            scv.save(savePath);
+//        }
+//    }
 
-                Cursor cursor = tk.createCustomCursor(newPicture.getImage(), new Point(1, 1), "Pointeur");
-                setCursor(cursor);
-            }
-        } else {
-            PictureCreation pc = scv.getFocusElement();
-            if (pc != null) {
-                i = pc.getCode();
+//    /**
+//     * Ouvre une boîte de dialogue ou l'utilisateur peut choisir sous quel nom 
+//     * enregistrer sont fichier. Ce nom sera enregistrer pour les sauvegardes 
+//     * ultérieur ({@link #savePath}).
+//     * 
+//     * @throws FileNotFoundException si le fichier n'a pas pu être trouver.
+//     * @throws IOException si une erreur survient lors de l'écriture.
+//     * @see #save() 
+//     */
+//    public void saveAs() throws FileNotFoundException, IOException {
+//        JFileChooser chooser = new JFileChooser(SchemaVue.REP_SAVE);
+//        int returnVal = chooser.showSaveDialog(this);
+//        
+//        if(returnVal == JFileChooser.APPROVE_OPTION) {
+//            savePath = chooser.getSelectedFile().getAbsolutePath();
+//            scv.save(savePath);
+//        }
+//    }
 
-                if (i != GestionaireFichier.EMPTY_PICTURE) {
-                    if (i % 10 == GestionaireFichier.ROTATION) {
-                        i -= GestionaireFichier.ROTATION;
-                    }
+//    /**
+//     * Nouveau schéma vierge.
+//     * 
+//     * Ouvre une boîte de dialoque dans laquel l'utilisateur saisi le nombre de 
+//     * ligne et le nombre de colonne qu'il désire.
+//     */
+//    public void newSchema() {
+//    }
 
-                    i++;
-
-                    pc.setCode(i);
-                    pc.setImage(gf.getPicture(i));
-                }
-            }
-        }
-        return i;
-    }*/
-
-    /**
-     * Sauvegarde le fichier dans le répertoire pré-indiquer ({@see #savePath}), 
-     * si celui ne l'ai pas l'utilisateur sera invité a le choisir ({@see #saveAs()}).
-     * 
-     * @throws FileNotFoundException si le fichier n'a pas pu être trouver.
-     * @throws IOException si une erreur survient lors de l'écriture.
-     * @see #saveAs() 
-     */
-    /*public void save() throws FileNotFoundException, IOException {
-        if (savePath == null) {
-            saveAs();
-        } else {
-            scv.save(savePath);
-        }
-    }*/
-
-    /**
-     * Ouvre une boîte de dialogue ou l'utilisateur peut choisir sous quel nom 
-     * enregistrer sont fichier. Ce nom sera enregistrer pour les sauvegardes 
-     * ultérieur ({@see #savePath}).
-     * 
-     * @throws FileNotFoundException si le fichier n'a pas pu être trouver.
-     * @throws IOException si une erreur survient lors de l'écriture.
-     * @see #save() 
-     */
-    /*public void saveAs() throws FileNotFoundException, IOException {
-        JFileChooser chooser = new JFileChooser(SchemaVue.REP_SAVE);
-        int returnVal = chooser.showSaveDialog(this);
-        
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            savePath = chooser.getSelectedFile().getAbsolutePath();
-            scv.save(savePath);
-        }
-    }*/
-
-    /**
-     * Nouveau schéma vierge.
-     * 
-     * Ouvre une boîte de dialoque dans laquel l'utilisateur saisi le nombre de 
-     * ligne et le nombre de colonne qu'il désire.
-     */
-    /*public void newSchema() {
-    }*/
-
-    /**
-     * Ouverture d'un schéma spécifique. Le chemin spécifier sera sauvegarder 
-     * pour permettre une sauvegarde rapide de l'utilisateur ({@see #savePath})
-     * Ouvre une boîte de dialogue dans laquel l'utilisateur est invité a choisir
-     * le fichier qu'il désire ouvrir.
-     */
-    /*public void openSchema() throws FileNotFoundException, IOException {
-        JFileChooser chooser = new JFileChooser(SchemaVue.REP_SAVE);
-        int returnVal = chooser.showOpenDialog(this);
-        
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            savePath = chooser.getSelectedFile().getAbsolutePath();
-            scv.newSchema(GestionaireFichier.loadFileShemat(savePath));
-        }
-    }*/
+//    /**
+//     * Ouverture d'un schéma spécifique. Le chemin spécifier sera sauvegarder 
+//     * pour permettre une sauvegarde rapide de l'utilisateur ({@link #savePath})
+//     * Ouvre une boîte de dialogue dans laquel l'utilisateur est invité a choisir
+//     * le fichier qu'il désire ouvrir.
+//     */
+//    public void openSchema() throws FileNotFoundException, IOException {
+//        JFileChooser chooser = new JFileChooser(SchemaVue.REP_SAVE);
+//        int returnVal = chooser.showOpenDialog(this);
+//        
+//        if(returnVal == JFileChooser.APPROVE_OPTION) {
+//            savePath = chooser.getSelectedFile().getAbsolutePath();
+//            scv.newSchema(GestionaireFichier.loadFileShemat(savePath));
+//        }
+//    }
 
     SchemaCreationVue getSchemaCreationVue() {
         return scv;

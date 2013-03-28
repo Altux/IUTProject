@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -16,35 +15,42 @@ import javax.swing.JPanel;
  */
 public class SchemaVue extends JPanel implements ComponentListener {
 
-    public final static String REP_SAVE = "./save";
+    public final static String REP_SAVE = "./save/";
     protected int nbLigne = 0;
     protected int nbCol = 0;
     protected GestionaireFichier gf;
-    protected ArrayList<Picture> pictures = new ArrayList();
+    protected ArrayList<Picture> pictures = new ArrayList<>();
     protected MouseListener mouseListener = null;
-   
+    protected boolean resizeAuto;
 
-    public SchemaVue(GestionaireFichier gf) {
+    public SchemaVue(GestionaireFichier gf, boolean resizeAuto) {
         this.gf = gf;
+        this.resizeAuto = resizeAuto;
         setLayout(new GridBagLayout());
-        addComponentListener(this);
+            addComponentListener(this);
     }
 
-    public SchemaVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList) {
-        this.gf = gf;
-        addComponentListener(this);
-        setLayout(new GridBagLayout());
+    public SchemaVue(GestionaireFichier gf) {
+        this(gf, true);
+    }
+
+    public SchemaVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList, boolean resizeAuto) {
+        this(gf, resizeAuto);
         newSchema(arrayList);
     }
 
+    public SchemaVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList) {
+        this(gf, arrayList, true);
+    }
+
     public void newSchema(ArrayList<Integer[]> arrayList) {
-        int col=0;
-        int ligne=0;
+        int col = 0;
+        int ligne = 0;
         // on vide le panel et le tableau de picture
         removeAll();
         pictures.clear();
 
-        // rï¿½cupï¿½re la taille de la grille
+        // récupére la taille de la grille
         nbLigne = arrayList.size();
         nbCol = arrayList.get(0).length;
 
@@ -60,7 +66,7 @@ public class SchemaVue extends JPanel implements ComponentListener {
                 addPicture(new Picture(gf.getPicture(integer), integer, ligne, col), constraints);
                 constraints.gridx++;
             }
-            col=0;
+            col = 0;
             constraints.gridy++;
         }
 
@@ -70,10 +76,11 @@ public class SchemaVue extends JPanel implements ComponentListener {
 
         calculateOptimalSize(getSize());
     }
+
     /**
-     * 
-     * @param p Instance de la classe Picture 
-     * @param constraints 
+     *
+     * @param p Instance de la classe Picture
+     * @param constraints
      */
     protected void addPicture(Picture p, GridBagConstraints constraints) {
         p.setMaximumSize(p.getPreferredSize());
@@ -90,7 +97,7 @@ public class SchemaVue extends JPanel implements ComponentListener {
     }
 
     protected void calculateOptimalSize(Dimension dim) {
-        if (dim.height > 1 && dim.width > 1) {
+        if (resizeAuto && dim.height > 1 && dim.width > 1) {
             int maxSize = pictures.get(0).getMaximumSize().height;
 
             int newSize;
@@ -113,6 +120,19 @@ public class SchemaVue extends JPanel implements ComponentListener {
         }
     }
 
+    public int getNbLigne() {
+        return nbLigne;
+    }
+
+    public int getNbCol() {
+        return nbCol;
+    }
+    
+//    protected void restoreMaximumSize(){
+//        for (Picture picture : pictures) {
+//            picture.setPreferredSize(picture.getMaximumSize());
+//        }
+//    }
     @Override
     public void componentResized(ComponentEvent e) {
         if (pictures != null && !pictures.isEmpty()) {
@@ -131,14 +151,4 @@ public class SchemaVue extends JPanel implements ComponentListener {
     @Override
     public void componentHidden(ComponentEvent e) {
     }
-
-    public int getNbLigne() {
-        return nbLigne;
-    }
-
-    public int getNbCol() {
-        return nbCol;
-    }
-    
-    
 }

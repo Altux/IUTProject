@@ -1,29 +1,28 @@
-package schema;
+package menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
+import schema.ActionCommande;
+import schema.GestionaireFichier;
+import schema.SchemaVue;
 
 /**
  *
  * @author groupe interface
  */
-public class MenuControleur implements ActionListener {
+public class MenuBarreControleur implements ActionListener {
 
     /**
-     * SchemaMenu correspond Ã  l'inerface du menu
-     *
-     * ({
-     *
-     * @see SchemaMenu})
+     * MenuBarre correspond à l'interface du menu.
      */
-    protected SchemaMenu m;
+    protected MenuBarre m;
     /**
      * SchemaVue l'interface de notre application ({
      *
-     * @see SchemaMenu})
+     * @see MenuBarre})
      */
     protected SchemaVue v;
     /**
@@ -35,32 +34,51 @@ public class MenuControleur implements ActionListener {
     /**
      *
      * @param m
-     * @param v constructeur du contrôleur du menu permet de contrôler tous
-     * les activité des opérations du menu
+     * @param v constructeur du contrôleur du menu permet de contrôler tous les
+     * activité des opérations du menu
      */
-    public MenuControleur(SchemaMenu m, SchemaVue v) {
+    public MenuBarreControleur(MenuBarre m, SchemaVue v) {
         this.m = m;
         this.v = v;
     }
 
     /**
      *
-     * @param e prend un événement Permet de savoir la valeur du bouton du
-     * menu sélectionné et ainsi faire une action en conséquent
+     * @param e prend un événement Permet de savoir la valeur du bouton du menu
+     * sélectionné et ainsi faire une action en conséquent
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
 
-            //on vÃ©rifie la valeur du bouton 
-            case SchemaMenu.AC_OPEN:
+            //on vérifie la valeur du bouton 
+            case ActionCommande.AC_OPEN:
                 open();
                 break;
 
-            case SchemaMenu.AC_EXIT:
+            case ActionCommande.AC_NEW:
+                newS();
+                break;
+
+            case ActionCommande.AC_SAVE:
+                save();
+                break;
+
+            case ActionCommande.AC_SAVEAS:
+                saveAs();
+                break;
+
+            case ActionCommande.AC_EXIT:
                 System.exit(0);
+
+
         }
 
+    }
+
+    protected void save() {
+        // TODO implement
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     protected void open() {
@@ -83,5 +101,15 @@ public class MenuControleur implements ActionListener {
                 e1.printStackTrace();
             }
         }
+    }
+
+    protected void saveAs() {
+        // TODO implement
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected void newS() {
+        // TODO implement
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -1,13 +1,15 @@
 package vtplayer;
 
+import java.awt.Point;
+
 /**
  * Conversion de Byte.
  *
  * @author godeau
  */
 public class ByteUtilitaire {
-    
-    private ByteUtilitaire(){
+
+    private ByteUtilitaire() {
     }
 
     /**
@@ -42,7 +44,7 @@ public class ByteUtilitaire {
      * représentant le code binaire de ce même nombre.
      *
      * @param b byte a convertir
-     * @return code binaire du byte passer en paramétre (coder sur 8 bits)
+     * @return code binaire du byte passer en paramètre (coder sur 8 bits)
      */
     public static String byte_hexa_to_bin_string(Byte b) {
         Integer integer = Integer.parseInt(String.format("%x", b), 16);
@@ -64,8 +66,19 @@ public class ByteUtilitaire {
         return str;
     }
 
+    /**
+     * Converti une position x, y en une configuration de deux byte. Les
+     * position ne doivent pas dépasser 16.
+     *
+     * @param tab tableau de deux entier
+     * @return
+     */
     public static Byte[] position_to_byte(int tab[]) {
         return position_to_byte(tab[0], tab[1]);
+    }
+    
+    public static Byte[] position_to_byte(Point p){
+        return position_to_byte(p.x, p.y);
     }
 
     public static Byte[] position_to_byte(int lig, int col) {

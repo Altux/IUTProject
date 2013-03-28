@@ -1,9 +1,12 @@
 package schema;
 
+import menu.MenuBarreControleur;
+import menu.MenuBarre;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import vocal.LecteurTexteThread;
 import vtplayer.VTPlayerException;
 import vtplayer.VTPlayerInterface;
@@ -19,20 +22,19 @@ public class Test {
     public static void main(String args[]) throws InterruptedException, FileNotFoundException, IOException, VTPlayerException {
         //VTPlayerInterface vtp = VTPlayerManager.getInstance();
         //VTPlayerManager.open(vtp);
-        HashMap<Integer, Byte[]> hashBytes = new HashMap();
-        ParametreurModele.loadPicotFile(hashBytes);
-        HashMap<Integer, String> sentence = new HashMap();
+        HashMap<Integer, Byte[]> hashBytes = ParametreurModele.loadPicotFile();
+        HashMap<Integer, String> sentence = ParametreurModele.loadDescription(LecteurTexteThread.PATH_PHONETIQUE);
         LecteurTexteThread lecteurTexte = new LecteurTexteThread();
         lecteurTexte.start();
-        ParametreurModele.loadDescription(sentence, LecteurTexteThread.PATH_PHONETIQUE);
+
 
         GestionaireFichier gf = new GestionaireFichier(GestionaireFichier.REP_IMAGES);
-        SchemaMenu schemaMenu = new SchemaMenu();
+        MenuBarre schemaMenu = new MenuBarre();
 
         SchemaVue schema = new SchemaVue(gf, GestionaireFichier.loadFileShemat("./text.txt"));
-        
+
         SchemaControleur controleur = new SchemaControleur(null/*vtp*/, hashBytes, schema, lecteurTexte, sentence);
-        MenuControleur mc = new MenuControleur(schemaMenu, schema);
+        MenuBarreControleur mc = new MenuBarreControleur(schemaMenu, schema);
         schema.addMouseListener(controleur);
         //schema.addKeyListener(controleur);
         schemaMenu.addActionListener(mc);
@@ -45,6 +47,7 @@ public class Test {
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(schema);
+        //frame.add(new JScrollPane(schema));
         frame.setVisible(true);
     }
 }

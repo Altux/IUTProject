@@ -15,7 +15,7 @@ import schema.Picture;
  */
 public class BarreOutil extends JPanel {
     protected GestionaireFichier gf;
-    protected ArrayList<Picture> pictures = new ArrayList();
+    protected ArrayList<Picture> pictures = new ArrayList<>();
 
     /**
      * 

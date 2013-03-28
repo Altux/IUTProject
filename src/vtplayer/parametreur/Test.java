@@ -14,14 +14,14 @@ import vtplayer.VTPlayerManager;
 public class Test {
 
     public static void main(String args[]) throws FileNotFoundException, IOException, VTPlayerException {
-        VTPlayerInterface vtp = VTPlayerManager.getInstance();
-        VTPlayerManager.open(vtp);
+        //VTPlayerInterface vtp = VTPlayerManager.getInstance();
+        //VTPlayerManager.open(vtp);
         
         JFrame frame = new JFrame();
 
         ParametreurModele modele = new ParametreurModele();
         ParametreurVue vue = new ParametreurVue(modele);
-        ParametreurControleur controleur = new ParametreurControleur(modele, vue, vtp);
+        ParametreurControleur controleur = new ParametreurControleur(modele, vue, null/*vtp*/);
 
         vue.addMouseListener(controleur);
         vue.addActionListener(controleur);

@@ -273,7 +273,7 @@ public class VTPlayer extends VTPlayerImpl {
      * @see #findDevices()
      */
     public static ArrayList<File> findDevices(String dir) {
-        ArrayList<File> path = new ArrayList();
+        ArrayList<File> path = new ArrayList<>();
 
         for (File file : new File(dir).listFiles()) {
             if (file.getName().startsWith("vtplayer")) {

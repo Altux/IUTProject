@@ -400,8 +400,8 @@ public class CreationVue extends JPanel {
             i = newPicture.getCode();
 
             if (i != GestionaireFichier.EMPTY_PICTURE) {
-                if (i % 10 == GestionaireFichier.ROTATION) {
-                    i -= GestionaireFichier.ROTATION;
+                if (i % 10 == 4/*GestionaireFichier.ROTATION*/) {
+                    i -= 4/*GestionaireFichier.ROTATION*/;
                 }
                 i++;
                 newPicture = new Picture(gf.getPicture(i), i);
@@ -415,8 +415,8 @@ public class CreationVue extends JPanel {
                 i = pc.getCode();
 
                 if (i != GestionaireFichier.EMPTY_PICTURE) {
-                    if (i % 10 == GestionaireFichier.ROTATION) {
-                        i -= GestionaireFichier.ROTATION;
+                    if (i % 10 == 4/*GestionaireFichier.ROTATION*/) {
+                        i -= 4/*GestionaireFichier.ROTATION*/;
                     }
 
                     i++;

@@ -15,7 +15,7 @@ import schema.Picture;
  */
 public class BarreOutil extends JPanel {
     protected GestionaireFichier gf;
-    protected ArrayList<Picture> pictures = new ArrayList();
+    protected ArrayList<Picture> pictures = new ArrayList<>();
 
     /**
      * 
@@ -36,7 +36,7 @@ public class BarreOutil extends JPanel {
         
         for (Map.Entry<Integer, Image> entry : gf.getPictures().entrySet()) {
             Integer code = entry.getKey();
-            if (code % 10 == 1) {
+            if (code % 10 == 1) { // TODO changer car maintenant 4 chiffres
                 constraints.gridy++;
                 Picture p = new Picture(entry.getValue(), code );
                 pictures.add(p);

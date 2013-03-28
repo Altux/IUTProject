@@ -38,7 +38,7 @@ public class ParametreurVue extends JPanel {
         /**
          * Liste des éléments a paramétré.
          */
-        JComboBox<Integer> comboBox = new JComboBox();
+        JComboBox<Integer> comboBox = new JComboBox<>();
         
         /**
          * Texte descriptif de l'élément a paramétré.

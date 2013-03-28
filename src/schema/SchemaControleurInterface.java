@@ -14,7 +14,8 @@ import vtplayer.VTPlayerInterface;
 
 /**
  *
- * @author GODEAU Quentin
+ * @author
+ * @deprecated 
  */
 public class SchemaControleurInterface extends MouseAdapter implements KeyListener {
     protected VTPlayerInterface vtp;
@@ -48,7 +49,7 @@ public class SchemaControleurInterface extends MouseAdapter implements KeyListen
         
         if(stm != null && sentence != null){
             stm.setTexte(sentence.get(code));
-            System.out.println("we try to read the text " + sentence.get(code));
+            //System.out.println("we try to read the text " + sentence.get(code));
         }
         
         System.out.println(code);
@@ -65,12 +66,12 @@ public class SchemaControleurInterface extends MouseAdapter implements KeyListen
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-    }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent e) {
     }
 }

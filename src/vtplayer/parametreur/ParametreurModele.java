@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import vtplayer.ByteUtilitaire;
@@ -28,36 +29,39 @@ public class ParametreurModele {
     /**
      * Map des description associé a un numéro unique.
      */
-    HashMap<Integer, String> desciption = new HashMap();
+    HashMap<Integer, String> desciption;
     /**
      * Map des bytes associé a une clé unique.
      */
-    HashMap<Integer, Byte[]> picots = new HashMap();
+    HashMap<Integer, Byte[]> picots;
     /**
-     * Chemin par défaut ({@value #pathDescription}) vers le fichier de
+     * Chemin par défaut ({@value #PATH_DESCRIPTION_FILE}) vers le fichier de
      * description.<br/>
      * Le fichier ce compose, sur chaque ligne d'un numéro suivi d'une phrase
-     * descriptive séparer par un délimiteur {@value #delimiteur}.<br/>
-     * <u>Exemple de fichier valide :</u><br/> 1{@value #delimiteur}Porte
-     * OU<br/> 2{@value #delimiteur}Porte ET<br/>
+     * descriptive séparer par un délimiteur {@value #DELIMITEUR}.<br/>
+     * <u>Exemple de fichier valide :</u><br/> 1{@value #DELIMITEUR}Porte
+     * OU<br/> 2{@value #DELIMITEUR}Porte ET<br/>
      */
-    protected final static String pathDescription = "./config/description.conf";
+    protected final static String PATH_DESCRIPTION_FILE = "./config/description.conf";
     /**
-     * Chemin par défaut ({@value #pathFilePicot}) vers le fichier de
+     * Chemin par défaut ({@value #PATH_PICOTS_FILE}) vers le fichier de
      * configuration des picots. Le fichier est automatiquement généré grâce a 
-     * {@see #save()} ou {@see #save(java.lang.String)} (si vous voulez spécifier un chemin
+     * {
+     *
+     * @see #save()} ou {
+     * @see #save(java.lang.String)} (si vous voulez spécifier un chemin
      * particulier).
      * <u>Exemple de fichier valide :</u><br/>
-     * 1{@value #delimiteur}b9{@value #delimiteur}5d{@value #delimiteur}99{@value #delimiteur}77<br/>
-     * 2{@value #delimiteur}99{@value #delimiteur}77{@value #delimiteur}b9{@value #delimiteur}5d<br/><br/>
+     * 1{@value #DELIMITEUR}b9{@value #DELIMITEUR}5d{@value #DELIMITEUR}99{@value #DELIMITEUR}77<br/>
+     * 2{@value #DELIMITEUR}99{@value #DELIMITEUR}77{@value #DELIMITEUR}b9{@value #DELIMITEUR}5d<br/><br/>
      * <strong><u>ATTENTION :</u></strong> ne modifier pas ce fichier a la main
      * a moins d'être sur de vous.
      */
-    protected final static String pathFilePicot = "./config/default.conf";
+    protected final static String PATH_PICOTS_FILE = "./config/default.conf";
     /**
      * Délimiteur de champ par défaut.
      */
-    protected final static String delimiteur = "#";
+    protected final static String DELIMITEUR = "#";
     /**
      * Fichier de configuration des picots (choisi par l'utilisateur).
      */
@@ -65,77 +69,89 @@ public class ParametreurModele {
 
     /**
      * Charge les fichier par défaut de description et de configuration des
-     * picots.(Respectivement {@value #pathDescription} et
-     * {@value #pathFilePicot}).
+     * picots.(Respectivement {@value #PATH_DESCRIPTION_FILE} et
+     * {@value #PATH_PICOTS_FILE}).
      *
      * @throws FileNotFoundException Si le fichier de de description n'est pas
      * trouver. Par contre un WARNING sera écrit sur le terminal pour le fichier
      * de configuration des picots.
      * @throws IOException erreur de lecture écriture.
      * @throws VTPlayerException erreur de conversion de byte.
-     * @see #pathDescription
-     * @see #pathFilePicot
+     * @see #PATH_DESCRIPTION_FILE
+     * @see #PATH_PICOTS_FILE
      */
     public ParametreurModele() throws FileNotFoundException, IOException, VTPlayerException {
-        this.pathPicot = pathFilePicot;
-        loadDescription(desciption);
-        try {
-            loadPicotFile(picots);
-        } catch (FileNotFoundException exception){
-            Logger.getLogger(ParametreurModele.class.getName()).log(Level.WARNING, "The file {0} can not be find.", pathPicot);
-       }
+        this(PATH_PICOTS_FILE, PATH_DESCRIPTION_FILE, true);
     }
+
+    public ParametreurModele(HashMap<Integer, Byte[]> picots) throws FileNotFoundException, IOException {
+        this(picots, PATH_PICOTS_FILE, PATH_DESCRIPTION_FILE);
+    }
+    
+    public ParametreurModele(HashMap<Integer, Byte[]> picots, String pathPicot, String pathDescription) throws FileNotFoundException, IOException {
+        this.pathPicot = pathPicot;
+        desciption = loadDescription(pathDescription);
+        this.picots = picots;
+    }
+    
+    
 
     /**
      * Charge les fichier spécifier.
-     * 
-     * @param pathPicot chemin vers le fichier de configuration des picots.
-     * Ce chemin est garder a en mémoire pour l'appel de {@see #save()}.
-     * @param pathDescription chemin vers le fichier de description. {@see #pathDescription}.
-     * @param onlyWarningPicotFile si est a vrai, un WARNING sera écrit sur le terminal pour le fichier
-     * de configuration des picots (si celui-ci n'est pas trouver). Sinon l'erreur sera reporter.
+     *
+     * @param pathPicot chemin vers le fichier de configuration des picots. Ce
+     * chemin est garder a en mémoire pour l'appel de {
+     * @see #save()}.
+     * @param pathDescription chemin vers le fichier de description. {
+     * @see #pathDescription}.
+     * @param onlyWarningPicotFile si est a vrai, un WARNING sera écrit sur le
+     * terminal pour le fichier de configuration des picots (si celui-ci n'est
+     * pas trouver). Sinon l'erreur sera reporter.
      * @throws FileNotFoundException si l'un des fichier n'est pas trouver.
      * @throws IOException erreur de lecture écriture.
      * @throws VTPlayerException erreur de conversion de byte.
      */
     public ParametreurModele(String pathPicot, String pathDescription, boolean onlyWarningPicotFile) throws FileNotFoundException, IOException, VTPlayerException {
         this.pathPicot = pathPicot;
-        loadDescription(desciption, pathDescription);
+        desciption = loadDescription(pathDescription);
         try {
-            loadPicotFile(picots, pathPicot);
-        } catch (FileNotFoundException exception){
-            if (onlyWarningPicotFile){
+            picots = loadPicotFile(pathPicot);
+        } catch (FileNotFoundException exception) {
+            if (onlyWarningPicotFile) {
                 Logger.getLogger(ParametreurModele.class.getName()).log(Level.WARNING, "The file {0} can not be find.", pathPicot);
             } else {
                 throw exception;
             }
-       }
+        }
     }
 
     /**
-     * Charge le fichier de configuration des picots par défaut {@value #pathFilePicot}.
-     * 
+     * Charge le fichier de configuration des picots par défaut
+     * {@value #PATH_PICOTS_FILE}.
+     *
      * @param hashMap map a remplir avec le contenu du fichier.
      * @throws IOException erreur lors de la lecture du fichier.
      * @throws FileNotFoundException fichier non trouver.
      * @throws VTPlayerException erreur lors de la conversion d'un byte.
-     * @see #loadDescription(java.util.HashMap, java.lang.String) 
+     * @see #loadDescription(java.util.HashMap, java.lang.String)
      */
-    public static void loadPicotFile(HashMap<Integer, Byte[]> hashMap) throws IOException, VTPlayerException, FileNotFoundException {
-        loadPicotFile(hashMap, pathFilePicot);
+    public static HashMap<Integer, Byte[]> loadPicotFile() throws IOException, VTPlayerException, FileNotFoundException {
+        return loadPicotFile(PATH_PICOTS_FILE);
     }
 
     /**
      * Charge le fichier de configuration des picots spécifier en paramètre.
-     * 
+     *
      * @param hashMap map a remplir avec le contenu du fichier.
      * @param path chemin vers le fichier.
      * @throws IOException erreur lors de la lecture du fichier.
      * @throws FileNotFoundException fichier non trouver.
      * @throws VTPlayerException erreur lors de la conversion d'un byte.
-     * @see #loadDescription(java.util.HashMap) 
+     * @see #loadDescription(java.util.HashMap)
      */
-    public static void loadPicotFile(HashMap<Integer, Byte[]> hashMap, String path) throws IOException, FileNotFoundException, VTPlayerException {
+    public static HashMap<Integer, Byte[]> loadPicotFile(String path) throws IOException, FileNotFoundException, VTPlayerException {
+        HashMap<Integer, Byte[]> hashMap = new HashMap<>();
+
         Integer key;
         String ligne;
 
@@ -148,7 +164,7 @@ public class ParametreurModele {
                 // si la ligne n'est pas vide
                 if (!ligne.isEmpty()) {
                     // on récupére les éléments
-                    String str[] = ligne.split(delimiteur);
+                    String str[] = ligne.split(DELIMITEUR);
                     // si le nombre délément est correct
                     if (str.length == 5) {
                         // on récupère la clé
@@ -164,31 +180,35 @@ public class ParametreurModele {
                 }
             }
         }
+
+        return hashMap;
     }
 
     /**
-     * Charge le fichier de description ({@value #pathDescription}). 
-     * Voir {@see #pathDescription} pour le format de fichier.
-     * 
+     * Charge le fichier de description ({@value #PATH_DESCRIPTION_FILE}). Voir {
+     *
+     * @see #PATH_DESCRIPTION_FILE} pour le format de fichier.
+     *
      * @param hashMap map a remplir.
      * @throws FileNotFoundException si le fichier n'a pas été trouver.
      * @throws IOException si un erreur de lecture est survenu.
-     * @see #loadDescription(java.util.HashMap, java.lang.String) 
+     * @see #loadDescription(java.util.HashMap, java.lang.String)
      */
-    public static void loadDescription(HashMap<Integer, String> hashMap) throws FileNotFoundException, IOException {
-        loadDescription(hashMap, pathDescription);
+    public static HashMap<Integer, String> loadDescription() throws FileNotFoundException, IOException {
+        return loadDescription(PATH_DESCRIPTION_FILE);
     }
 
     /**
      * Charge le fichier de description avec un chemin spécifier.
-     * 
+     *
      * @param hashMap map a remplir
      * @param path chemin vers le fichier.
      * @throws FileNotFoundException si le fichier n'a pu être trouver.
      * @throws IOException si un erreur de lecture est survenu.
-     * @see #loadDescription(java.util.HashMap) 
+     * @see #loadDescription(java.util.HashMap)
      */
-    public static void loadDescription(HashMap<Integer, String> hashMap, String path) throws FileNotFoundException, IOException {
+    public static HashMap<Integer, String> loadDescription(String path) throws FileNotFoundException, IOException {
+        HashMap<Integer, String> hashMap = new HashMap<>();
         String ligne;
         Integer key;
 
@@ -199,7 +219,7 @@ public class ParametreurModele {
         try (BufferedReader buff = new BufferedReader(isr)) {
             while ((ligne = buff.readLine()) != null) {
                 if (!ligne.isEmpty()) {
-                    String str[] = ligne.split(delimiteur);
+                    String str[] = ligne.split(DELIMITEUR);
                     if (str.length == 2) {
                         key = Integer.valueOf(str[0]);
                         hashMap.put(key, str[1]);
@@ -207,15 +227,17 @@ public class ParametreurModele {
                 }
             }
         }
+
+        return hashMap;
     }
 
     /**
      * Retourne toute les clef de description.
-     * 
+     *
      * @return clef de description.
      */
     ArrayList<Integer> getKeyDescription() {
-        ArrayList<Integer> ret = new ArrayList();
+        ArrayList<Integer> ret = new ArrayList<>();
 
         for (Map.Entry<Integer, String> entry : desciption.entrySet()) {
             ret.add(entry.getKey());
@@ -226,7 +248,7 @@ public class ParametreurModele {
 
     /**
      * Retourne la description associé a un index donnée.
-     * 
+     *
      * @param index index de la description voulue.
      * @return description associé a l'index.
      */
@@ -236,10 +258,11 @@ public class ParametreurModele {
 
     /**
      * Permet d'obtenir les bytes associé e un index donnée.
-     * 
+     *
      * @param index index des bytes voulue.
      * @return les bytes charger si il sont présent dans Map sinon NULLBYTES 
-     * ({@see VTPlayer#NULLBYTES}).
+     * ({
+     * @see VTPlayer#NULLBYTES}).
      */
     public Byte[] getPicots(Integer index) {
         Byte[] bytes = picots.get(index);
@@ -251,7 +274,7 @@ public class ParametreurModele {
 
     /**
      * Remplace ou ajoute les bytes donnée a un index donnée.
-     * 
+     *
      * @param index index des picots.
      * @param bytes bytes associé a cette index.
      */
@@ -260,23 +283,27 @@ public class ParametreurModele {
     }
 
     /**
-     * Sauvegarde du fichier dans le répertoire définie lors de la construction de l'objet.
-     * 
+     * Sauvegarde du fichier dans le répertoire définie lors de la construction
+     * de l'objet.
+     *
      * @throws FileNotFoundException si le fichier n'a pu être trouver.
-     * @throws IOException si une erreur est survenu lors de l'écriture du fichier.
-     * @see #save(java.lang.String) 
+     * @throws IOException si une erreur est survenu lors de l'écriture du
+     * fichier.
+     * @see #save(java.lang.String)
      */
     public void save() throws FileNotFoundException, IOException {
         save(pathPicot);
     }
 
     /**
-     * Sauvegarde du fichier dans le répertoire définie lors de la construction de l'objet.
-     * 
+     * Sauvegarde du fichier dans le répertoire définie lors de la construction
+     * de l'objet.
+     *
      * @param path chemin du fichier dans lequel enregistré.
      * @throws FileNotFoundException si le fichier n'a pu être trouver.
-     * @throws IOException si une erreur est survenu lors de l'écriture du fichier.
-     * @see #save() 
+     * @throws IOException si une erreur est survenu lors de l'écriture du
+     * fichier.
+     * @see #save()
      */
     public void save(String path) throws FileNotFoundException, IOException {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(path)))) {
@@ -287,11 +314,15 @@ public class ParametreurModele {
                 pw.printf("%d", integer);
                 for (int i = 0; i < 4; i++) {
                     // écriture des quatre bytes associé a l'index
-                    pw.printf(delimiteur + "%x", bytes[i]);
+                    pw.printf(DELIMITEUR + "%x", bytes[i]);
                 }
                 // retourn a la ligne
                 pw.println();
             }
         }
+    }
+
+    public HashMap<Integer, Byte[]> getPicots() {
+        return picots;
     }
 }

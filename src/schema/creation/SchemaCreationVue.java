@@ -17,40 +17,28 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * ActionCommande a lier au bouton d'ajout d'une ligne en dessous.
-     * 
-     * @see #addLigne(java.lang.String) 
-     * @see #addSouth(java.awt.GridBagConstraints, java.awt.Image) 
      */
     public static final String AC_ADD_SOUTH = "addSouth";
     /**
      * ActionCommande a lier au bouton d'ajout d'une ligne a droite.
-     * @see #addLigne(java.lang.String) 
-     * @see #addEast(java.awt.GridBagConstraints, java.awt.Image) 
      */
     public static final String AC_ADD_EAST = "addEast";
     /**
      * ActionCommande a lier au bouton d'ajout d'une ligne au dessus
-     * 
-     * @see #addLigne(java.lang.String) 
-     * @see #addNorth(java.awt.GridBagConstraints, java.awt.Image) 
      */
     public static final String AC_ADD_NORTH = "addNorth";
     /**
      * ActionCommande a lier au bouton d'ajout d'une ligne a gauche.
-     * 
-     * @see #addLigne(java.lang.String) 
-     * @see #addWest(java.awt.GridBagConstraints, java.awt.Image) 
      */
     public static final String AC_ADD_WEST = "addWest";
+//    /**
+//     * L'élément aillant le focus.
+//     */
+//    protected PictureCreation old_focused = null;
     /**
-     * L'élément aillant le focus.
-     */
-    //protected PictureCreation old_focused = null;
-    
-    /**
-     * Début de contrainte pour le GridConstraintLayout, cela permet d'ajouter 
-     * des lignes au dessus et a gauche même une fois le GridLayout mis en place.
-     * Dans la limite X défini par cette valeur.
+     * Début de contrainte pour le GridConstraintLayout, cela permet d'ajouter
+     * des lignes au dessus et a gauche même une fois le GridLayout mis en
+     * place. Dans la limite X défini par cette valeur.
      */
     protected final static int START_CONSTRAINTS = 200;
     /**
@@ -63,11 +51,19 @@ public class SchemaCreationVue extends SchemaVue {
     protected int startY = START_CONSTRAINTS;
 
     public SchemaCreationVue(GestionaireFichier gf) {
-        super(gf);
+        this(gf, true);
     }
 
+    public SchemaCreationVue(GestionaireFichier gf, boolean resizeAuto) {
+        super(gf, resizeAuto);
+    }
+    
+    public SchemaCreationVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList, boolean resizeAuto) {
+        super(gf, arrayList, resizeAuto);
+    }
+    
     public SchemaCreationVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList) {
-        super(gf, arrayList);
+        this(gf, arrayList, true);
     }
 
     @Override
@@ -106,7 +102,7 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * Permet de créer un nouveau schéma vierge de taille définie.
-     * 
+     *
      * @param rows nombre de ligne.
      * @param columns nombre de colonne.
      */
@@ -150,17 +146,16 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * Ajout d'une ligne dans la direction définie.
-     * 
-     * @param direction direction choisie, ({@see #AC_ADD_NORTH}, 
-     * {@see #AC_ADD_SOUTH}, {@see #AC_ADD_WEST} ou {@see #AC_ADD_EAST}).
-     * 
+     *
+     * @param direction direction choisie, ({@link  #AC_ADD_NORTH},
+     * {@link #AC_ADD_SOUTH}, {@link #AC_ADD_WEST} ou {@link #AC_ADD_EAST}).
      */
     public void addLigne(String direction) {
-        if (nbCol == 0 || nbLigne == 0){
+        if (nbCol == 0 || nbLigne == 0) {
             newSchema(1, 1);
             return;
         }
-        
+
         GridBagConstraints constraints = new GridBagConstraints();
         Image image = gf.getPicture(GestionaireFichier.EMPTY_PICTURE);
 
@@ -186,10 +181,10 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * Ajout d'une ligne en dessous des autres.
-     * 
+     *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String) 
+     * @see #addLigne(java.lang.String)
      */
     protected void addSouth(GridBagConstraints constraints, Image image) {
         constraints.gridy = nbLigne + startY;
@@ -205,10 +200,10 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * Ajout d'une ligne a droite des autres.
-     * 
+     *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String) 
+     * @see #addLigne(java.lang.String)
      */
     protected void addEast(GridBagConstraints constraints, Image image) {
         constraints.gridx = nbCol + startX;
@@ -224,17 +219,17 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * Ajout d'une ligne a gauche des autres.
-     * 
+     *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String) 
+     * @see #addLigne(java.lang.String)
      */
     protected void addWest(GridBagConstraints constraints, Image image) {
         startX--;
         constraints.gridx = startX;
 
         for (constraints.gridy = startY; constraints.gridy < nbLigne + startY; constraints.gridy++) {
-            Picture picture = new PictureCreation(image, GestionaireFichier.EMPTY_PICTURE,constraints.gridy, constraints.gridx);
+            Picture picture = new PictureCreation(image, GestionaireFichier.EMPTY_PICTURE, constraints.gridy, constraints.gridx);
             addPicture(picture, constraints);
             picture.addMouseListener(mouseListener);
         }
@@ -244,10 +239,10 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * Ajout d'une ligne au dessus des autres.
-     * 
+     *
      * @param constraints objet de contrainte pour le GridBagLayout.
      * @param image images a ajouter normalement image vide.
-     * @see #addLigne(java.lang.String) 
+     * @see #addLigne(java.lang.String)
      */
     protected void addNorth(GridBagConstraints constraints, Image image) {
         startY--;
@@ -264,27 +259,30 @@ public class SchemaCreationVue extends SchemaVue {
 
     /**
      * Sauvegarde dans un fichier ce qui est afficher dans la vue.
-     * 
+     *
      * @param path chemin vers le fichier de sauvegarde.
      * @throws FileNotFoundException si le fichier n'a pas pu être trouver.
-     * @throws IOException Si une erreur est survenu lors de l'écriture du fichier.
-     * @see GestionaireFichier#saveFileSchema(java.util.ArrayList, java.lang.String) 
+     * @throws IOException Si une erreur est survenu lors de l'écriture du
+     * fichier.
+     * @see GestionaireFichier#saveFileSchema(java.util.ArrayList,
+     * java.lang.String)
      */
     public void save(String path) throws FileNotFoundException, IOException {
-        if(nbLigne > 0 && nbCol > 0){
+        if (nbLigne > 0 && nbCol > 0) {
             // tableau résultat
-            Integer tab[][] =new Integer[nbLigne][nbCol];
+            Integer tab[][] = new Integer[nbLigne][nbCol];
 
             // pour chaque composant de la vue
-            for (Component component : this.getComponents()) {
+//            for (Component component : this.getComponents()) {
+                for (Picture pc : pictures) {
                 // si celui-ci est une instance de PictureCreation
-                if (component instanceof PictureCreation) {
+//                if (component instanceof PictureCreation) {
 
                     // on cast le composant
-                    PictureCreation pc = (PictureCreation) component;
+//                    PictureCreation pc = (PictureCreation) component;
 
-                    tab[pc.getLig()-startY][pc.getCol()-startX] = pc.getCode();
-                }
+                    tab[pc.getLig() - startY][pc.getCol() - startX] = pc.getCode();
+//                }
             }
             // si l'ArrayList n'est pas vide on la sauvegarde dans le chemin définie
             GestionaireFichier.saveFileSchema(tab, path);

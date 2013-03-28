@@ -1,5 +1,6 @@
 package vocal;
 
+import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,10 @@ public class LecteurTexteThread extends Thread {
         }
     }
 
+    public synchronized void positionnement(Point p){
+        positionnement(p.x, p.y);
+    }
+    
     public synchronized void positionnement(int col, int ligne) {
         lecteurTexte.positionnement(col, ligne);
         notify();
