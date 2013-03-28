@@ -24,10 +24,10 @@ public class Menu extends JPanel implements ActionCommande {
 
     private final static String FONT = "font/Basically_Serif.ttf";
     JButton ouvrir = new JButton("Ouvrir", new ImageIcon("ico/ouvrir.png"));
-    JButton creer = new JButton("Cr√©er", new ImageIcon("ico/creer.png"));
-    JButton parametre = new JButton("Param√®tres", new ImageIcon("ico/param√®tre.png"));
+    JButton creer = new JButton("CrÈer", new ImageIcon("ico/creer.png"));
+    JButton parametre = new JButton("ParamËtres", new ImageIcon("ico/parametre.png"));
     JButton quitter = new JButton("Quitter", new ImageIcon("ico/quitter.png"));
-    JButton credit = new JButton("Cr√©dits");
+    JButton credit = new JButton("CrÈdits", new ImageIcon("ico/vide.png"));
     Image background = new ImageIcon("ico/background.png").getImage();
 
     public Menu() {
