@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,10 +44,10 @@ public class ParametreurVue extends JPanel {
          */
         JLabel jLabel = new JLabel();
         
-        /**
-         * Sauvegarde les changements.
-         */
-        JButton jButton = new JButton("Save");
+//        /**
+//         * Sauvegarde les changements.
+//         */
+//        JButton jButton = new JButton("Sauvegarder");
 
         /**
          * Constructeur du menu, Attention doit être ensuite initialiser pour 
@@ -66,7 +65,7 @@ public class ParametreurVue extends JPanel {
             // ajout des composants
             add(comboBox, BorderLayout.WEST);
             add(jLabel, BorderLayout.CENTER);
-            add(jButton, BorderLayout.EAST);
+//            add(jButton, BorderLayout.EAST);
             
             // ajout des items a la JComboBox
             for (Integer i : arrayList) {
@@ -74,7 +73,7 @@ public class ParametreurVue extends JPanel {
             }
             
             // association des actions au constante
-            jButton.setActionCommand(ACTION_COMMAND_SAVE);
+//            jButton.setActionCommand(ACTION_COMMAND_SAVE);
             comboBox.setActionCommand(ACTION_COMMAND_INDEX_CHANGE);
         }
          
@@ -87,9 +86,9 @@ public class ParametreurVue extends JPanel {
             jLabel.setText(" " + txt);
         }
         
-       public void  addActionListener(ActionListener l){
+       public synchronized void  addActionListener(ActionListener l){
            comboBox.addActionListener(l);
-           jButton.addActionListener(l);
+//           jButton.addActionListener(l);
        }
        
        /**

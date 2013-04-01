@@ -1,26 +1,27 @@
 package menu;
 
-
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import schema.ActionCommande;
+import javax.swing.Box;
 
 /**
  *
  * @author Icinhoo
  */
-public class Menu extends JPanel implements ActionCommande {
+public class Menu extends JPanel implements MenuAction {
 
     private final static String FONT = "font/Basically_Serif.ttf";
     JButton ouvrir = new JButton("Ouvrir", new ImageIcon("ico/ouvrir.png"));
@@ -31,6 +32,37 @@ public class Menu extends JPanel implements ActionCommande {
     Image background = new ImageIcon("ico/background.png").getImage();
 
     public Menu() {
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ((JButton) e.getSource()).requestFocus();
+            }
+        };
+
+        FocusAdapter focusListener = new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                JButton jb = (JButton) e.getSource();
+                jb.setForeground(Color.WHITE);
+                jb.repaint();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                JButton jb = (JButton) e.getSource();
+                jb.setForeground(Color.decode("#04FF46"));
+                jb.repaint();
+            }
+        };
+
+        KeyAdapter keyAdapter = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    ((JButton) e.getSource()).doClick();
+                }
+            }
+        };
 
         Font newButtonFont = new Font(FONT, ouvrir.getFont().getStyle(), 40);
 
@@ -40,6 +72,9 @@ public class Menu extends JPanel implements ActionCommande {
         ouvrir.setContentAreaFilled(false);
         ouvrir.setForeground(Color.decode("#04FF46"));
         ouvrir.setActionCommand(AC_OPEN);
+        ouvrir.addMouseListener(mouseAdapter);
+        ouvrir.addFocusListener(focusListener);
+        ouvrir.addKeyListener(keyAdapter);
 
         creer.setFont(newButtonFont);
         creer.setBorderPainted(false);
@@ -47,6 +82,9 @@ public class Menu extends JPanel implements ActionCommande {
         creer.setContentAreaFilled(false);
         creer.setForeground(Color.decode("#04FF46"));
         creer.setActionCommand(AC_NEW);
+        creer.addMouseListener(mouseAdapter);
+        creer.addFocusListener(focusListener);
+        creer.addKeyListener(keyAdapter);
 
         parametre.setFont(newButtonFont);
         parametre.setBorderPainted(false);
@@ -54,7 +92,9 @@ public class Menu extends JPanel implements ActionCommande {
         parametre.setContentAreaFilled(false);
         parametre.setForeground(Color.decode("#04FF46"));
         parametre.setActionCommand(AC_PREFERENCE);
-
+        parametre.addMouseListener(mouseAdapter);
+        parametre.addFocusListener(focusListener);
+        parametre.addKeyListener(keyAdapter);
 
         quitter.setFont(newButtonFont);
         quitter.setBorderPainted(false);
@@ -62,7 +102,9 @@ public class Menu extends JPanel implements ActionCommande {
         quitter.setContentAreaFilled(false);
         quitter.setForeground(Color.decode("#04FF46"));
         quitter.setActionCommand(AC_EXIT);
-
+        quitter.addMouseListener(mouseAdapter);
+        quitter.addFocusListener(focusListener);
+        quitter.addKeyListener(keyAdapter);
 
         credit.setFont(newButtonFont);
         credit.setBorderPainted(false);
@@ -70,34 +112,26 @@ public class Menu extends JPanel implements ActionCommande {
         credit.setContentAreaFilled(false);
         credit.setForeground(Color.decode("#04FF46"));
         credit.setActionCommand(AC_ABOUT);
+        credit.addMouseListener(mouseAdapter);
+        credit.addFocusListener(focusListener);
+        credit.addKeyListener(keyAdapter);
 
-        JPanel vide = new JPanel();
-        vide.setPreferredSize(new Dimension(999999999, 250));
-        vide.setLayout(new BoxLayout(vide, BoxLayout.PAGE_AXIS));
-        add(vide);
-        vide.setOpaque(false);
-
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setOpaque(false);
+        
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(400, 400));
         panel.setOpaque(false);
+        panel.setAlignmentX(CENTER_ALIGNMENT);
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(ouvrir);
         panel.add(creer);
         panel.add(parametre);
         panel.add(quitter);
         panel.add(credit);
-
-        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        add(Box.createVerticalGlue());
         add(panel);
-        setOpaque(false);
-    }
-
-    public void mouseMoved(MouseEvent e) {
-        ouvrir.setForeground(Color.white);
-        creer.setForeground(Color.white);
-        parametre.setForeground(Color.white);
-        quitter.setForeground(Color.white);
-        credit.setForeground(Color.white);
+        add(Box.createVerticalStrut(10));
 
     }
 
@@ -113,14 +147,5 @@ public class Menu extends JPanel implements ActionCommande {
         parametre.addActionListener(l);
         quitter.addActionListener(l);
         credit.addActionListener(l);
-    }
-
-    @Override
-    public synchronized void addMouseListener(MouseListener l) {
-        ouvrir.addMouseListener(l);
-        creer.addMouseListener(l);
-        parametre.addMouseListener(l);
-        quitter.addMouseListener(l);
-        credit.addMouseListener(l);
     }
 }

@@ -53,7 +53,7 @@ public class VTPlayer extends VTPlayerImpl {
         try {
             System.loadLibrary("libJNI");
         } catch (UnsatisfiedLinkError | NullPointerException exception) {
-            Logger.getLogger(VTPlayer.class.getName()).log(Level.WARNING, "The library can not be found in the \"{0}\".", System.getProperty("java.library.path"));
+            Logger.getLogger(VTPlayer.class.getName()).log(Level.WARNING, "The library can not be found in the \"{0}\".", System.getProperty("java.library.path").replace(";", "\n"));
             try {
                 VTPlayer.loadLibraryFromJar("/vtplayer/linux/libJNI.so");
             } catch (IOException ex) {

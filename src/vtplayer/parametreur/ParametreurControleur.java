@@ -27,18 +27,6 @@ public class ParametreurControleur extends MouseAdapter implements ActionListene
      * 
      * @param parametreurModele modèle.
      * @param parametreurVue vue.
-     * @see #ParametreurControleur(vtplayer.parametreur.ParametreurModele, vtplayer.parametreur.ParametreurVue, vtplayer.VTPlayer) 
-     */
-    public ParametreurControleur(ParametreurModele parametreurModele, ParametreurVue parametreurVue) {
-        this.parametreurModele = parametreurModele;
-        this.parametreurVue = parametreurVue;
-    }
-
-    /**
-     * Constructeur.
-     * 
-     * @param parametreurModele modèle.
-     * @param parametreurVue vue.
      * @param vtp référence vers la souris.
      * @see #ParametreurControleur(vtplayer.parametreur.ParametreurModele, vtplayer.parametreur.ParametreurVue) 
      */

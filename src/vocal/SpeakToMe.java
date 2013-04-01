@@ -1,6 +1,9 @@
 package vocal;
 
+import java.awt.Point;
+
 public class SpeakToMe extends t2s.son.LecteurTexte {
+    public static final String PATH_PHONETIQUE = "config/phonetique.conf";
 
     /**
      * Certaines lettres ne sont pas prononcées correctement, on remplace alors
@@ -9,7 +12,22 @@ public class SpeakToMe extends t2s.son.LecteurTexte {
      */
     protected static String[] tabAlphabet = {"A", "B", "C", "Dé", "E", "F", "G", "H", "I", "J", "K", "L", "aime", "haineu", "eau", "Pé", "Cul", "aire", "aisse", "Té", "U", "V", "W", "ixe", "igrec", "Z"};
 
-    public void positionnement(int col, int ligne) {
+//    public void playTexteLater(String str) {
+//        if (str != null) {
+//            setTexte(str);
+//            SwingUtilities.invokeLater(new Runnable() {
+//                @Override
+//                public void run() {
+//                    playAll();
+//                }
+//            });
+//        }
+//    }
+    public void positionnement(Point p) {
+        positionnement(p.x, p.y);
+    }
+
+    public void positionnement(int ligne, int col) {
 
         String h = tabAlphabet[col];
 

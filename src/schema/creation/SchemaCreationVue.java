@@ -2,8 +2,6 @@ package schema.creation;
 
 import java.awt.GridBagConstraints;
 import java.awt.Image;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import schema.GestionaireFichier;
 import schema.Picture;
@@ -30,10 +28,6 @@ public class SchemaCreationVue extends SchemaVue {
      * ActionCommande a lier au bouton d'ajout d'une ligne a gauche.
      */
     public static final String AC_ADD_WEST = "addWest";
-//    /**
-//     * L'élément aillant le focus.
-//     */
-//    protected PictureCreation old_focused = null;
     /**
      * Début de contrainte pour le GridConstraintLayout, cela permet d'ajouter
      * des lignes au dessus et a gauche même une fois le GridLayout mis en
@@ -56,13 +50,19 @@ public class SchemaCreationVue extends SchemaVue {
     public SchemaCreationVue(GestionaireFichier gf, boolean resizeAuto) {
         super(gf, resizeAuto);
     }
-    
+
     public SchemaCreationVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList, boolean resizeAuto) {
         super(gf, arrayList, resizeAuto);
     }
-    
+
     public SchemaCreationVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList) {
         this(gf, arrayList, true);
+    }
+
+    public void clear() {
+        removeAll();
+        pictures.clear();
+        nbCol = nbLigne = 0;
     }
 
     @Override
@@ -97,6 +97,39 @@ public class SchemaCreationVue extends SchemaVue {
 
         calculateOptimalSize(getSize());
 
+    }
+
+    @Override
+    public void newSchema(Integer schema[][]) {
+        startX = START_CONSTRAINTS;
+        startY = START_CONSTRAINTS;
+
+        // on vide le panel et le tableau de picture
+        removeAll();
+        pictures.clear();
+
+        // récupère la taille de la grille
+        nbLigne = schema.length;
+        nbCol = schema[0].length;
+
+        // mise en place du layout
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        constraints.gridx = constraints.gridy = START_CONSTRAINTS;
+        for (Integer[] integers : schema) {
+            constraints.gridx = START_CONSTRAINTS;
+            for (Integer integer : integers) {
+                addPicture(new PictureCreation(gf.getPicture(integer), integer, constraints.gridy, constraints.gridx), constraints);
+                constraints.gridx++;
+            }
+            constraints.gridy++;
+        }
+
+        if (mouseListener != null) {
+            addMouseListener(mouseListener);
+        }
+
+        calculateOptimalSize(getSize());
     }
 
     /**
@@ -252,34 +285,17 @@ public class SchemaCreationVue extends SchemaVue {
         nbLigne++;
     }
 
-    /**
-     * Sauvegarde dans un fichier ce qui est afficher dans la vue.
-     *
-     * @param path chemin vers le fichier de sauvegarde.
-     * @throws FileNotFoundException si le fichier n'a pas pu être trouver.
-     * @throws IOException Si une erreur est survenu lors de l'écriture du
-     * fichier.
-     */
-    public void save(String path) throws FileNotFoundException, IOException {
+    @Override
+    public Integer[][] getSchemaCode() {
         if (nbLigne > 0 && nbCol > 0) {
-            // tableau résultat
             Integer tab[][] = new Integer[nbLigne][nbCol];
 
-            // pour chaque composant de la vue
-//            for (Component component : this.getComponents()) {
-                for (Picture pc : pictures) {
-                // si celui-ci est une instance de PictureCreation
-//                if (component instanceof PictureCreation) {
-
-                    // on cast le composant
-//                    PictureCreation pc = (PictureCreation) component;
-
-                    tab[pc.getLig() - startY][pc.getCol() - startX] = pc.getCode();
-//                }
+            for (Picture pc : pictures) {
+                tab[pc.getLig() - startY][pc.getCol() - startX] = pc.getCode();
             }
-            // si l'ArrayList n'est pas vide on la sauvegarde dans le chemin définie
-            GestionaireFichier.saveFileSchema(tab, path);
+            return tab;
         }
+        return null;
     }
 
     @Override

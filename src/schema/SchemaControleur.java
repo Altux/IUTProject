@@ -1,41 +1,51 @@
 package schema;
 
+import config.Config;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import vocal.LecteurTexteThread;
+import javax.swing.SwingUtilities;
+import vocal.SpeakToMe;
 import vtplayer.VTPlayerException;
 import vtplayer.VTPlayerInterface;
 import vtplayer.ByteUtilitaire;
+import vtplayer.parametreur.ParametreurModele;
 
 /**
  *
  * @author Charles,Thang-tung, Qianlin
  */
-public class SchemaControleur extends MouseAdapter implements KeyListener {
+public class SchemaControleur extends MouseAdapter implements Observer, ActionListener {
 
     protected VTPlayerInterface vtp;
     protected HashMap<Integer, Byte[]> bytes;
-    protected LecteurTexteThread stm;
+    protected /*LecteurTexteThread*/ SpeakToMe stm;
     protected HashMap<Integer, String> sentence;
     protected Picture lastEntered = null;
     protected SchemaVue sv;
+    protected boolean son;
+    protected int frequence;
 
-    public SchemaControleur(VTPlayerInterface vtp, HashMap<Integer, Byte[]> bytes, SchemaVue shV, LecteurTexteThread stm, HashMap<Integer, String> sentence) {
+    public SchemaControleur(VTPlayerInterface vtp, HashMap<Integer, Byte[]> bytes, SchemaVue shV, /*LecteurTexteThread*/ SpeakToMe stm, HashMap<Integer, String> sentence, Config configuration) {
         this.vtp = vtp;
         this.bytes = bytes;
         this.stm = stm;
         this.sentence = sentence;
         this.sv = shV;
+        // TODO get configuration
+        son = configuration.getSon();
+        frequence = configuration.getFrequencePicots();
     }
 
-    protected final void vtpSet(int code) {
+    protected final void vtpSet(final int code) {
         // si VTPlayer est brancher et fonctionnel
         if (vtp != null && vtp.isOpen()) {
 
@@ -52,10 +62,16 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
             }
         }
 
-        if (stm != null && sentence != null) {
-            stm.setTexte(sentence.get(code / 100));
-            //System.out.println("we try to read the text " + sentence.get(code));
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if (son && stm != null && sentence != null) {
+                    stm.setTexte(sentence.get(code / 100));
+                    stm.playAll();
+                    //System.out.println("we try to read the text " + sentence.get(code));
+                }
+            }
+        });
 
         System.out.println(code);
     }
@@ -64,14 +80,6 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
         // on récupére le nombres totale de lignes et colonnes de l'image
         int nbcoltotal = sv.getNbCol();
         int nbligtotal = sv.getNbLigne();
-
-//        int[] position_zone = new int[2];
-//
-//        //int zone_col;
-//        //int zone_lig;
-//        // on récupére la position de l'image pointÃ© par le curseur 
-//        int col_Image = lastEntered.getCol() - 1;
-//        int lig_Image = lastEntered.getLig() - 1;
 
         // si le nombre totale de colonne n'est pas un multiple de 4
         // on incrémente jusqu'à  atteindre un multiple de 4
@@ -86,22 +94,6 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
         }
 
         return new Point((lastEntered.getLig() - 1) / Math.round(nbligtotal / 4), (lastEntered.getCol() - 1) / Math.round(nbcoltotal / 4));
-
-//        //on cherche combien d'image (porte) peut comptenir une zone 
-//        int nbcol_zone = Math.round(nbcoltotal / 4);
-//        int nblign_zone = Math.round(nbligtotal / 4);
-//
-//
-//        //on vÃ©rifie dans quelle zone ce trouve notre image
-//        zone_col = col_Image / nbcol_zone;
-//        zone_lig = lig_Image / nblign_zone;
-//
-//        position_zone[0] = zone_lig;
-//        position_zone[1] = zone_col;
-//
-//        //System.out.println("coordonnÃ© de la zone --> ligne :" + position_zone[1] + " colonne : " + position_zone[0]);
-//
-//        return (position_zone);
     }
 
     @Override
@@ -111,35 +103,59 @@ public class SchemaControleur extends MouseAdapter implements KeyListener {
             lastEntered = (Picture) o;
             vtpSet(lastEntered.getCode());
         }
-
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_C && lastEntered != null) {
+    public void mouseExited(MouseEvent e) {
+        if (e.getSource() instanceof Picture) {
+            lastEntered = null;
+            vtpSet(GestionaireFichier.EMPTY_PICTURE);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals(SchemaAction.AC_SPATIALIZATION) && lastEntered != null) {
             //System.out.println(" ligne :" + lastEntered.getLig() + " colonne : " + lastEntered.getCol());
             //int[] position_zone = getZone();
-            Point position_zone = getZone();
+            final Point position_zone = getZone();
 
             //pour avoir la colonne tableau [0] pour la ligne tableau [1]
-            //position de la zone avec le synthÃ¨se vocal :
-            stm.positionnement(position_zone/*[0], position_zone[1]*/);
+            //position de la zone avec le synthése vocal :
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("read position");
+                    if (stm != null) {
+                        stm.positionnement(position_zone/*[0], position_zone[1]*/);
+                        stm.playAll();
+                    }
+                }
+            });
+
             //System.out.println("l = " + position_zone[0] + " c = " + position_zone[1]);
-            try {
-                //position de la zone avec la souri : 
-                vtp.setRight(ByteUtilitaire.position_to_byte(position_zone), 1000);
-            } catch (VTPlayerException ex) {
-                // TODO informer l'utilisateur de l'erreur
-                Logger.getLogger(SchemaControleur.class.getName()).log(Level.SEVERE, null, ex);
+            if (vtp != null && vtp.isOpen()) {
+                try {
+                    //position de la zone avec la souri : 
+                    vtp.setRight(ByteUtilitaire.position_to_byte(position_zone), frequence);
+                } catch (VTPlayerException ex) {
+                    // TODO informer l'utilisateur de l'erreur
+                    Logger.getLogger(SchemaControleur.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
+    public void update(Observable o, Object arg) {
+        if (o.hasChanged()) {
+            if (o instanceof Config) {
+                Config config = (Config) o;
+                son = config.getSon();
+                frequence = config.getFrequencePicots();
+            } else if (o instanceof ParametreurModele && arg instanceof HashMap) {
+                bytes = (HashMap<Integer, Byte[]>) arg;
+            }
+        }
     }
 }

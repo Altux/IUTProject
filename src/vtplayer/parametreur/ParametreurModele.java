@@ -24,7 +24,7 @@ import vtplayer.VTPlayerInterface;
  *
  * @author godeau
  */
-public class ParametreurModele {
+public class ParametreurModele extends Observable {
 
     /**
      * Map des description associé a un numéro unique.
@@ -311,6 +311,8 @@ public class ParametreurModele {
                 // retourn a la ligne
                 pw.println();
             }
+            setChanged();
+            notifyObservers(picots); // notifie les observateurs que l'objet a changer
         }
     }
 

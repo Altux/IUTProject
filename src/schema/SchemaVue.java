@@ -22,30 +22,54 @@ public class SchemaVue extends JPanel implements ComponentListener {
     protected ArrayList<Picture> pictures = new ArrayList<>();
     protected MouseListener mouseListener = null;
     protected boolean resizeAuto;
+    protected boolean haveChange;
 
+
+    /**
+     *
+     * @param gf
+     * @param resizeAuto
+     */
     public SchemaVue(GestionaireFichier gf, boolean resizeAuto) {
         this.gf = gf;
         this.resizeAuto = resizeAuto;
+        this.haveChange = false;
         setLayout(new GridBagLayout());
-            addComponentListener(this);
+        addComponentListener(this);
     }
 
+    /**
+     *
+     * @param gf
+     * @deprecated
+     */
     public SchemaVue(GestionaireFichier gf) {
         this(gf, true);
     }
 
+    /**
+     *
+     * @param gf
+     * @param arrayList
+     * @param resizeAuto
+     * @deprecated
+     */
     public SchemaVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList, boolean resizeAuto) {
         this(gf, resizeAuto);
         newSchema(arrayList);
     }
 
+    /**
+     *
+     * @param gf
+     * @param arrayList
+     * @deprecated
+     */
     public SchemaVue(GestionaireFichier gf, ArrayList<Integer[]> arrayList) {
         this(gf, arrayList, true);
     }
 
     public void newSchema(ArrayList<Integer[]> arrayList) {
-        int col = 0;
-        int ligne = 0;
         // on vide le panel et le tableau de picture
         removeAll();
         pictures.clear();
@@ -59,14 +83,40 @@ public class SchemaVue extends JPanel implements ComponentListener {
 
         constraints.gridx = constraints.gridy = 0;
         for (Integer[] integers : arrayList) {
-            ligne++;
             constraints.gridx = 0;
             for (Integer integer : integers) {
-                col++;
-                addPicture(new Picture(gf.getPicture(integer), integer, ligne, col), constraints);
+                addPicture(new Picture(gf.getPicture(integer), integer, constraints.gridy, constraints.gridx), constraints);
                 constraints.gridx++;
             }
-            col = 0;
+            constraints.gridy++;
+        }
+
+        if (mouseListener != null) {
+            addMouseListener(mouseListener);
+        }
+
+        calculateOptimalSize(getSize());
+    }
+
+    public void newSchema(Integer schema[][]) {
+        // on vide le panel et le tableau de picture
+        removeAll();
+        pictures.clear();
+
+        // récupére la taille de la grille
+        nbLigne = schema.length;
+        nbCol = schema[0].length;
+
+        // mise en place du layout
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        constraints.gridx = constraints.gridy = 0;
+        for (Integer[] integers : schema) {
+            constraints.gridx = 0;
+            for (Integer integer : integers) {
+                addPicture(new Picture(gf.getPicture(integer), integer, constraints.gridy, constraints.gridx), constraints);
+                constraints.gridx++;
+            }
             constraints.gridy++;
         }
 
@@ -93,6 +143,14 @@ public class SchemaVue extends JPanel implements ComponentListener {
         mouseListener = l;
         for (Picture picture : pictures) {
             picture.addMouseListener(l);
+        }
+    }
+
+    @Override
+    public synchronized void removeMouseListener(MouseListener l) {
+        mouseListener = null;
+        for (Picture picture : pictures) {
+            picture.removeMouseListener(l);
         }
     }
 
@@ -127,17 +185,37 @@ public class SchemaVue extends JPanel implements ComponentListener {
     public int getNbCol() {
         return nbCol;
     }
-    
-//    protected void restoreMaximumSize(){
-//        for (Picture picture : pictures) {
-//            picture.setPreferredSize(picture.getMaximumSize());
-//        }
-//    }
+
+    public Integer[][] getSchemaCode() {
+        if (nbLigne > 0 && nbCol > 0) {
+            Integer tab[][] = new Integer[nbLigne][nbCol];
+
+            for (Picture picture : pictures) {
+                tab[picture.getLig()][picture.getCol()] = picture.getCode();
+            }
+
+            return tab;
+        }
+        return null;
+    }
+
+    public boolean getResizeAuto() {
+        return resizeAuto;
+    }
+
     @Override
     public void componentResized(ComponentEvent e) {
         if (pictures != null && !pictures.isEmpty()) {
             calculateOptimalSize(getSize());
         }
+    }
+
+    public void setHaveChange(boolean haveChange) {
+        this.haveChange = haveChange;
+    }
+
+    public boolean getHaveChange() {
+        return haveChange;
     }
 
     @Override

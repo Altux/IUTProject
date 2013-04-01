@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 /**
  *
  * @author GODEAU Quentin
+ * @deprecated 
  */
 public class LecteurTexteThread extends Thread {
 
-    public static final String PATH_PHONETIQUE = "config/phonetique.conf";
     protected SpeakToMe lecteurTexte = new SpeakToMe();
 
     @Override
@@ -36,8 +36,8 @@ public class LecteurTexteThread extends Thread {
         positionnement(p.x, p.y);
     }
     
-    public synchronized void positionnement(int col, int ligne) {
-        lecteurTexte.positionnement(col, ligne);
+    public synchronized void positionnement(int ligne, int col) {
+        lecteurTexte.positionnement(ligne, col);
         notify();
     }
 }

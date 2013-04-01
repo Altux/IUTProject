@@ -1,30 +1,24 @@
 package schema.creation;
 
+import config.Config;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
-import schema.ActionCommande;
 import schema.GestionaireFichier;
 import schema.Picture;
 import schema.SchemaControleur;
-import vocal.LecteurTexteThread;
+import vocal.SpeakToMe;
 import vtplayer.VTPlayerInterface;
 
 /**
  *
  */
-public class SchemaCreationControleur extends SchemaControleur implements ActionListener {
+public class SchemaCreationControleur extends SchemaControleur {
 
-//    /**
-//     * nombre de rotation qu'un éléments peut faire.
-//     */
-//    public final static int ROTATION = 4;
     /**
      * Image en cours de placement.
      */
@@ -42,9 +36,13 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
      */
     protected GestionaireFichier gf;
     protected Toolkit tk = Toolkit.getDefaultToolkit();
+    protected int escape;
+    protected int delete;
+    protected int rotation;
+    protected int changebit;
 
-    public SchemaCreationControleur(VTPlayerInterface vtp, HashMap<Integer, Byte[]> bytes, CreationVue cv, LecteurTexteThread lecteurTexte, HashMap<Integer, String> sentence) {
-        super(vtp, bytes, cv.getSchemaCreationVue(), lecteurTexte, sentence);
+    public SchemaCreationControleur(VTPlayerInterface vtp, HashMap<Integer, Byte[]> bytes, CreationVue cv, /*LecteurTexteThread*/ SpeakToMe lecteurTexte, HashMap<Integer, String> sentence, Config configuration) {
+        super(vtp, bytes, cv.getSchemaCreationVue(), lecteurTexte, sentence, configuration);
         creationVue = cv;
         gf = cv.getGestionaireFichier();
     }
@@ -72,52 +70,30 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        super.keyPressed(e);
-
-        Integer i = null;
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_ESCAPE:
-                escape();
-                break;
-
-            case KeyEvent.VK_DELETE:
-                i = delete();
-                break;
-
-            case KeyEvent.VK_R:
-                i = rotation();
-                break;
-        }
-        if (i != null) {
-            vtpSet(i);
-        }
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
+        super.actionPerformed(e);
+        
         Integer i = null;
         switch (e.getActionCommand()) {
-            case ActionCommande.AC_DELETE:
+            case CreationAction.AC_DELETE:
                 i = delete();
                 break;
 
-            case ActionCommande.AC_ROTATE:
+            case CreationAction.AC_ROTATE:
                 i = rotation();
                 break;
 
-            case ActionCommande.AC_ESCAPE:
+            case CreationAction.AC_ESCAPE:
                 escape();
                 break;
 
-            case ActionCommande.AC_CHANGEBIT:
+            case CreationAction.AC_CHANGEBIT:
                 i = changeBit();
                 break;
         }
         if (i != null) {
             vtpSet(i);
         }
-        //creationVue.requestFocus();
     }
 
     /**
@@ -149,8 +125,8 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
     }
 
     /**
-     * Si {@link #newPicture} n'est pas nul l'image aura le focus afin de permettre a
-     * l'utilisateur de mieux visualiser ou il click.
+     * Si {@link #newPicture} n'est pas nul l'image aura le focus afin de
+     * permettre a l'utilisateur de mieux visualiser ou il click.
      *
      * @param pc l'image ce trouvent sous le pointeur de la souris
      */
@@ -167,6 +143,7 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
             if (newPicture == null) {
                 setFocusOn(null);
             }
+            sv.setHaveChange(true);
             return GestionaireFichier.EMPTY_PICTURE;
         }
         return null;
@@ -229,6 +206,7 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
 
                     old_focused.setCode(i);
                     old_focused.setImage(image);
+                    sv.setHaveChange(true);
                 }
             }
         }
@@ -249,7 +227,7 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
             i = newPicture.getCode();
 
             // Si le code de l'image est différent de 0
-            if (i != GestionaireFichier.EMPTY_PICTURE) {
+            if (i != GestionaireFichier.EMPTY_PICTURE && (i % 10) != GestionaireFichier.CODE_PORTE) {
 
                 //On change le dernier chiffre du code en 1 ou 0
                 i = ((int) (i / 10)) * 10 + ((i % 10 == 1) ? 0 : 1);
@@ -268,7 +246,7 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
                 i = old_focused.getCode();
 
                 // Si le code de l'image est différent de 0
-                if (i != GestionaireFichier.EMPTY_PICTURE) {
+                if (i != GestionaireFichier.EMPTY_PICTURE && (i % 10) != GestionaireFichier.CODE_PORTE) {
 
                     //On change le dernier chiffre du code en 1 ou 0
                     i = ((int) (i / 10)) * 10 + ((i % 10 == 1) ? 0 : 1);
@@ -279,10 +257,8 @@ public class SchemaCreationControleur extends SchemaControleur implements Action
                     // On place le focus sur l'image
                     old_focused.setCode(i);
                     old_focused.setImage(image);
-
+                    sv.setHaveChange(true);
                 }
-
-
             }
         }
         return i;

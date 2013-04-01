@@ -29,15 +29,20 @@ public class GestionaireFichier {
     /**
      * Indique le répertoire où ce trouve les images.
      */
-    public final static String REP_IMAGES = "./porte/";
+    public final static String REP_IMAGES = "porte/";
+    /**
+     * Répertoire de sauvegarde par défaut.
+     */
+    public final static String REP_SAVE = "save/";
     /**
      * Correspond au code d'une image vide.
      */
     public final static int EMPTY_PICTURE = 0;
+    public final static int CODE_PORTE = 2;
     /**
      * Extension par défaut des fichier gérer.
      */
-    public final static String EXTENTION_FILE = ".vtp";
+    public final static String EXTENTION_FILE = "ustd";
     /**
      * Nous permet de ranger nos images, l'index d'une HashMap va être égale au
      * code de notre image.
@@ -134,9 +139,9 @@ public class GestionaireFichier {
      * @throws IOException erreur d'écriture
      */
     public static void saveFileSchema(Integer[][] tab, String path) throws FileNotFoundException, IOException {
-        if (!path.endsWith(EXTENTION_FILE)) {
-            path += EXTENTION_FILE;
-        }
+//        if (!path.endsWith(EXTENTION_FILE)) {
+//            path += EXTENTION_FILE;
+//        }
 
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(path)))) {
             for (Integer[] integers : tab) {

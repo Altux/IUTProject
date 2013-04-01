@@ -18,7 +18,7 @@ public class PictureCreation extends Picture {
     /**
      * Bordure afficher si l'élément a le focus.
      */
-    protected static Border border = BorderFactory.createLineBorder(Color.BLACK);
+    protected static Border border = BorderFactory.createLineBorder(Color.BLUE);
     
     public PictureCreation(Image image, Integer code, int lig, int col) {
         super(image, code, lig, col);
