@@ -1,6 +1,6 @@
 package vipMouse;
 
-import config.Config;
+import parametres.Config;
 import config.ConfigTest;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -73,7 +73,7 @@ public class Application extends JFrame implements ActionListener, Observer {
                 }
             }
         });
-
+        
 
         config = new ConfigTest();// TODO init config
         resizeAuto = config.getAutoResize();
@@ -222,6 +222,11 @@ public class Application extends JFrame implements ActionListener, Observer {
         return true;
     }
 
+    /**
+     * Fermeture du schéma
+     * 
+     * @return retourne vrai si il n'y a pas eu de soucis ou si l'utilisateur n'a pas annuler
+     */
     private boolean closeSchema() {
         if (schemaVue != null && schemaVue.getHaveChange()) {
             switch (JOptionPane.showConfirmDialog(this, "Voulez-vous sauvegarder ?", "Sauvegarder", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)) {
@@ -261,7 +266,7 @@ public class Application extends JFrame implements ActionListener, Observer {
     }
 
     /**
-     *
+     * permet de rendre les objet élisible au {@link }
      */
     private void unlink() {
         System.out.println("unlink");
@@ -459,7 +464,7 @@ public class Application extends JFrame implements ActionListener, Observer {
                     Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
+            
             modele.deleteObservers();
         } catch (FileNotFoundException ex) {
             // TODO informer utilisateur

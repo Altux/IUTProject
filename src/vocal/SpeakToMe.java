@@ -4,6 +4,7 @@ import java.awt.Point;
 
 public class SpeakToMe extends t2s.son.LecteurTexte {
     public static final String PATH_PHONETIQUE = "config/phonetique.conf";
+    public static final String PATH_CONFIG = "donnees/si_vox.conf";
 
     /**
      * Certaines lettres ne sont pas prononcées correctement, on remplace alors

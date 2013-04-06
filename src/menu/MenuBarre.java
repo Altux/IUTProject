@@ -1,6 +1,6 @@
 package menu;
 
-import config.Config;
+import parametres.Config;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;

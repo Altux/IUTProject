@@ -28,7 +28,7 @@ public class Menu extends JPanel implements MenuAction {
     JButton creer = new JButton("Créer", new ImageIcon("ico/creer.png"));
     JButton parametre = new JButton("Paramètres", new ImageIcon("ico/parametre.png"));
     JButton quitter = new JButton("Quitter", new ImageIcon("ico/quitter.png"));
-    JButton credit = new JButton("Crédits", new ImageIcon("ico/vide.png"));
+    JButton credit = new JButton("Crédits", new ImageIcon("ico/info.png"));
     Image background = new ImageIcon("ico/background.png").getImage();
 
     public Menu() {

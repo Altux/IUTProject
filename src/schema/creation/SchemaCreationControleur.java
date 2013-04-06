@@ -1,6 +1,6 @@
 package schema.creation;
 
-import config.Config;
+import parametres.Config;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
@@ -72,7 +72,7 @@ public class SchemaCreationControleur extends SchemaControleur {
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
-        
+
         Integer i = null;
         switch (e.getActionCommand()) {
             case CreationAction.AC_DELETE:

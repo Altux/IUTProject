@@ -1,4 +1,4 @@
-package config;
+package parametres;
 
 import java.util.Observable;
 
