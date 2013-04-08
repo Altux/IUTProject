@@ -22,7 +22,7 @@ import vtplayer.VTPlayerInterface;
 
 /**
  *
- * @author godeau
+ * @author
  */
 public class ParametreurModele extends Observable {
 

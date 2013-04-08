@@ -1,7 +1,6 @@
 package vipMouse;
 
 import parametres.Config;
-import config.ConfigTest;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -24,6 +23,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import menu.Menu;
 import menu.MenuAction;
 import menu.MenuBarre;
+import parametres.ParametresModele;
+import parametres.ParametresVue;
 import schema.GestionaireFichier;
 import schema.SchemaControleur;
 import schema.SchemaVue;
@@ -60,9 +61,9 @@ public class Application extends JFrame implements ActionListener, Observer {
     protected boolean resizeAuto;
 
     public Application() throws HeadlessException, IOException, VTPlayerException, FileNotFoundException {
+        super("Unik Sound Tactil Display");
         setMinimumSize(MINIMUNSIZE);
         setSize(MINIMUNSIZE);
-        setTitle("Unik Sound Tactil Display");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setFocusable(true);
         addWindowListener(new WindowAdapter() {
@@ -73,9 +74,9 @@ public class Application extends JFrame implements ActionListener, Observer {
                 }
             }
         });
-        
 
-        config = new ConfigTest();// TODO init config
+
+        config = new ParametresModele();// TODO init config
         resizeAuto = config.getAutoResize();
         config.addObserver(this);
 
@@ -143,6 +144,10 @@ public class Application extends JFrame implements ActionListener, Observer {
                 vtplayer_preference();
                 break;
 
+            case MenuAction.AC_PREFERENCE:
+                preference();
+                break;
+
             case MenuAction.AC_EXIT:
                 this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
                 break;
@@ -168,10 +173,10 @@ public class Application extends JFrame implements ActionListener, Observer {
             // Si le jFileChooser à  fonctionné alors on peut continuer	
             if (f.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 String path = f.getSelectedFile().getAbsolutePath();
-                if(!path.endsWith(GestionaireFichier.EXTENTION_FILE)){
+                if (!path.endsWith(GestionaireFichier.EXTENTION_FILE)) {
                     path += "." + GestionaireFichier.EXTENTION_FILE;
                 }
-                
+
                 return save(path);
             }
             return false;
@@ -224,8 +229,9 @@ public class Application extends JFrame implements ActionListener, Observer {
 
     /**
      * Fermeture du schéma
-     * 
-     * @return retourne vrai si il n'y a pas eu de soucis ou si l'utilisateur n'a pas annuler
+     *
+     * @return retourne vrai si il n'y a pas eu de soucis ou si l'utilisateur
+     * n'a pas annuler
      */
     private boolean closeSchema() {
         if (schemaVue != null && schemaVue.getHaveChange()) {
@@ -393,7 +399,7 @@ public class Application extends JFrame implements ActionListener, Observer {
         if (closeSchema()) {
             // On définit le répertoire par défaut pour ouvrir notre slélection de fichier
             JFileChooser f = new JFileChooser(SchemaVue.REP_SAVE);
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Unik Sound Tactil Display",GestionaireFichier.EXTENTION_FILE, "txt");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Unik Sound Tactil Display", GestionaireFichier.EXTENTION_FILE, "txt");
             f.setFileFilter(filter);
             // Si le jFileChooser à  fonctionné alors on peut continuer	
             if (f.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -464,7 +470,7 @@ public class Application extends JFrame implements ActionListener, Observer {
                     Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             modele.deleteObservers();
         } catch (FileNotFoundException ex) {
             // TODO informer utilisateur
@@ -473,6 +479,11 @@ public class Application extends JFrame implements ActionListener, Observer {
             // TODO informer utilisateur
             Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void preference() {
+        ParametresVue parametresVue = new ParametresVue(this, (ParametresModele) config);
+        parametresVue.setVisible(true);
     }
 
     @Override

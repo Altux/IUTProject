@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Vue du paramétreur.
+ * Vue du paramètreur.
  * 
- * @author godeau
+ * @author
  */
 public class ParametreurVue extends JPanel {
     /**

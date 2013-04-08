@@ -11,7 +11,7 @@ import vtplayer.ByteUtilitaire;
 
 /**
  *
- * @author godeau
+ * @author 
  */
 class ParametreurGridVue extends JPanel {
 

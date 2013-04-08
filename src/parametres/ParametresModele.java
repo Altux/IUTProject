@@ -46,7 +46,7 @@ public class ParametresModele extends Config {
 
     @Override
     public String getNorme() {
-        return proprietes.getProperty("Norme", "vide");
+        return proprietes.getProperty("Norme", "EU");
     }
 
     public void setNorme(String norme) {

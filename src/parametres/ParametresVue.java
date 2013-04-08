@@ -1,10 +1,5 @@
 package parametres;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Admin
@@ -31,12 +26,13 @@ public class ParametresVue extends javax.swing.JDialog {
         }
 
         sliderFrequence.setValue(parametresModele.getFrequencePicots());
+        vtplayer.setSelected(parametresModele.getVTPlayerMouse());
 
         tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeySpatialization()), 0, 1);
         tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeyRotation()), 1, 1);
         tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeyChangeBit()), 2, 1);
-        //tableControle.setValueAt(KeyEvent.getKeyText(parametresModele.getKeySuppresion()), X, 1);
-        //tableControle.setValueAt(KeyEvent.getKeyText(parametresModele.getKeyEchapement()), X, 1);
+        //tableControle.setValueAt(KeyEvent.getKeyText(parametresModele.getKeySuppresion()), 3, 1);
+        //tableControle.setValueAt(KeyEvent.getKeyText(parametresModele.getKeyEchapement()), 4, 1);
 
         checkboxSonActif.setSelected(parametresModele.getSon());
     }
@@ -69,6 +65,7 @@ public class ParametresVue extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        javax.swing.ButtonGroup btnGroup = new javax.swing.ButtonGroup();
         javax.swing.JLabel lblTitre = new javax.swing.JLabel();
         javax.swing.JPanel pnlNorme = new javax.swing.JPanel();
         javax.swing.JSeparator jSeparator1 = new javax.swing.JSeparator();
@@ -92,6 +89,13 @@ public class ParametresVue extends javax.swing.JDialog {
         Annuler = new javax.swing.JButton();
         Appliquer = new javax.swing.JButton();
         Ok = new javax.swing.JButton();
+        javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
+        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
+        javax.swing.JSeparator jSeparator5 = new javax.swing.JSeparator();
+        vtplayer = new javax.swing.JCheckBox();
+
+        btnGroup.add(btnNormeEU);
+        btnGroup.add(btnNormeUS);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -283,6 +287,39 @@ public class ParametresVue extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("VTPlayer");
+
+        vtplayer.setText("Activé");
+        vtplayer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vtplayerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(vtplayer)
+                    .addComponent(jLabel1)
+                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(vtplayer)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -291,8 +328,7 @@ public class ParametresVue extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(Ok)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Annuler)
@@ -300,12 +336,14 @@ public class ParametresVue extends javax.swing.JDialog {
                         .addComponent(Appliquer))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTitre)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(pnlNorme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(pnlControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(pnlSon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pnlSon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -317,21 +355,20 @@ public class ParametresVue extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(pnlNorme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pnlSon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(pnlControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pnlNorme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Annuler)
-                            .addComponent(Appliquer)
-                            .addComponent(Ok))
-                        .addGap(5, 5, 5)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(pnlSon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Annuler)
+                    .addComponent(Appliquer)
+                    .addComponent(Ok))
+                .addContainerGap())
         );
 
         pack();
@@ -356,6 +393,8 @@ public class ParametresVue extends javax.swing.JDialog {
     }//GEN-LAST:event_sliderFrequenceStateChanged
 
     private void tableControleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableControleMouseClicked
+        
+        
         tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(showKeyChooser(this)), tableControle.getSelectedRow(), 1);
     }//GEN-LAST:event_tableControleMouseClicked
 
@@ -363,7 +402,7 @@ public class ParametresVue extends javax.swing.JDialog {
         try {
             // On recharges les anciens paramètre
             parametresModele.setProprietes(ParametresModele.load(parametresModele.getPathConfig()));
-        } catch (IOException ex) {
+        } catch (java.io.IOException ex) {
         }
         dispose();
     }//GEN-LAST:event_AnnulerActionPerformed
@@ -373,7 +412,7 @@ public class ParametresVue extends javax.swing.JDialog {
             parametresModele.sauvegarder();
         } catch (java.io.IOException ex) {
             // TODO informer l'utilisateur qu'il y a eu une erreur
-            java.util.logging.Logger.getLogger(Parametres.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ParametresVue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_AppliquerActionPerformed
 
@@ -381,6 +420,11 @@ public class ParametresVue extends javax.swing.JDialog {
         AppliquerActionPerformed(evt);
         dispose();
     }//GEN-LAST:event_OkActionPerformed
+
+    private void vtplayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vtplayerActionPerformed
+        // TODO add your handling code here:
+        parametresModele.setVTPlayerMouse(String.valueOf(vtplayer.isSelected()));
+    }//GEN-LAST:event_vtplayerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Annuler;
@@ -392,5 +436,6 @@ public class ParametresVue extends javax.swing.JDialog {
     private javax.swing.JLabel lblValFrequence;
     private javax.swing.JSlider sliderFrequence;
     private javax.swing.JTable tableControle;
+    private javax.swing.JCheckBox vtplayer;
     // End of variables declaration//GEN-END:variables
 }
