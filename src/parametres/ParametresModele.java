@@ -22,8 +22,8 @@ public class ParametresModele extends Config {
             return proprietes;
         }
     }
-    
-    public ParametresModele(String path){
+
+    public ParametresModele(String path) {
         pathConfig = path;
         try {
             proprietes = ParametresModele.load(path);
@@ -36,12 +36,13 @@ public class ParametresModele extends Config {
     }
 
     public void sauvegarder() throws IOException {
-
         try (FileOutputStream fos = new FileOutputStream(FICHIER)) {
             proprietes.store(fos, " configuration du son et de la norme \n DEFAULT CONFIGURATION \n norme=US or EU \n son=true or false");
         }
-        System.out.println("alert('Mise à jour effectuée.');");
+
+        setChanged();
         notifyObservers();
+        System.out.println("Mise à jour effectuée");
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ParametresModele extends Config {
     public void setVTPlayerMouse(String vtpmouse) {
         proprietes.setProperty("VTPlayerMouse", vtpmouse);
     }
-    
+
     @Override
     public boolean getAutoResize() {
         return Boolean.valueOf(proprietes.getProperty("AutoResize", "false"));

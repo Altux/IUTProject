@@ -77,7 +77,7 @@ public class Application extends JFrame implements ActionListener, Observer {
         });
 
 
-        config = new ParametresModele();// TODO init config
+        config = new ParametresModele();
         resizeAuto = config.getAutoResize();
         config.addObserver(this);
 
@@ -91,11 +91,12 @@ public class Application extends JFrame implements ActionListener, Observer {
         // Chargement des dépendances de la souris.
         bytesConfig = ParametreurModele.loadPicotFile();
         vtp = VTPlayerManager.getInstance();
+        
         if (config.getVTPlayerMouse()) {
             try {
                 VTPlayerManager.open(vtp);
-            } catch (VTPlayerException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Erreur VTPlayer", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erreur lors du chrgement des ressource pour la souris.", "Erreur VTPlayer", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -499,6 +500,7 @@ public class Application extends JFrame implements ActionListener, Observer {
     
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println("application update");
         if (o instanceof Config) {
             try {
                 if (((Config) o).getVTPlayerMouse()) {
