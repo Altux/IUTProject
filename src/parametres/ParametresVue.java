@@ -1,11 +1,13 @@
 package parametres;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
 public class ParametresVue extends javax.swing.JDialog {
-    
+
     ParametresModele parametresModele;
 
     /**
@@ -15,10 +17,10 @@ public class ParametresVue extends javax.swing.JDialog {
         super(parent, true);
         this.parametresModele = parametresModele;
         setResizable(false);
-        
-        
+
+
         initComponents();
-        
+
         if ("EU".equals(parametresModele.getNorme())) {
             btnNormeEU.setSelected(true);
         } else {
@@ -26,24 +28,26 @@ public class ParametresVue extends javax.swing.JDialog {
         }
 
         sliderFrequence.setValue(parametresModele.getFrequencePicots());
+        checkboxSonActif.setSelected(parametresModele.getSon());
         vtplayer.setSelected(parametresModele.getVTPlayerMouse());
 
         tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeySpatialization()), 0, 1);
         tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeyRotation()), 1, 1);
         tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeyChangeBit()), 2, 1);
-        //tableControle.setValueAt(KeyEvent.getKeyText(parametresModele.getKeySuppresion()), 3, 1);
-        //tableControle.setValueAt(KeyEvent.getKeyText(parametresModele.getKeyEchapement()), 4, 1);
+        tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeySuppresion()), 3, 1);
+        tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(parametresModele.getKeyEchapement()), 4, 1);
 
-        checkboxSonActif.setSelected(parametresModele.getSon());
+        checkBoxRedim.setSelected(parametresModele.getAutoResize());
+
     }
-    
+
     protected static int showKeyChooser(javax.swing.JDialog frame) {
         javax.swing.JDialog dialog = new javax.swing.JDialog(frame, true);
         dialog.setUndecorated(true);
         dialog.setResizable(false);
         dialog.setLocationRelativeTo(frame);
 
-        javax.swing.JLabel jLabel = new javax.swing.JLabel("Hello world");
+        javax.swing.JLabel jLabel = new javax.swing.JLabel("Appuyez sur la touche a associer a la commande");
         jLabel.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK));
         dialog.add(jLabel);
 
@@ -83,16 +87,19 @@ public class ParametresVue extends javax.swing.JDialog {
         lblValFrequence = new javax.swing.JLabel();
         javax.swing.JPanel pnlControle = new javax.swing.JPanel();
         javax.swing.JLabel lblControles = new javax.swing.JLabel();
-        javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-        tableControle = new javax.swing.JTable();
         javax.swing.JSeparator jSeparator2 = new javax.swing.JSeparator();
+        tableControle = new javax.swing.JTable();
         Annuler = new javax.swing.JButton();
         Appliquer = new javax.swing.JButton();
         Ok = new javax.swing.JButton();
-        javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
+        javax.swing.JPanel pnlVTPlayer = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         javax.swing.JSeparator jSeparator5 = new javax.swing.JSeparator();
         vtplayer = new javax.swing.JCheckBox();
+        pnlRedim = new javax.swing.JPanel();
+        javax.swing.JLabel lblRedim = new javax.swing.JLabel();
+        javax.swing.JSeparator jSeparator6 = new javax.swing.JSeparator();
+        checkBoxRedim = new javax.swing.JCheckBox();
 
         btnGroup.add(btnNormeEU);
         btnGroup.add(btnNormeUS);
@@ -144,7 +151,8 @@ public class ParametresVue extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        checkboxSonActif.setText("Actif");
+        checkboxSonActif.setText("Activé");
+        checkboxSonActif.setToolTipText("Option dictant le nom des composants pointés");
         checkboxSonActif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkboxSonActifActionPerformed(evt);
@@ -179,6 +187,7 @@ public class ParametresVue extends javax.swing.JDialog {
 
         sliderFrequence.setMaximum(2000);
         sliderFrequence.setMinimum(100);
+        sliderFrequence.setToolTipText("Fréquence d'élévation des picots");
         sliderFrequence.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 sliderFrequenceStateChanged(evt);
@@ -220,27 +229,27 @@ public class ParametresVue extends javax.swing.JDialog {
             new Object [][] {
                 {"Spatialisation", null},
                 {"Rotation", null},
-                {"Changer etat du fil", null}
+                {"Changer etat fil", null},
+                {"Suppression (Mode éditeur)", null},
+                {"Echap (Mode éditeur)", null}
             },
             new String [] {
-                "Controle", "Touche"
+                "Commande", "Touche"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tableControle.setPreferredSize(new java.awt.Dimension(87, 50));
         tableControle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableControleMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tableControle);
 
         javax.swing.GroupLayout pnlControleLayout = new javax.swing.GroupLayout(pnlControle);
         pnlControle.setLayout(pnlControleLayout);
@@ -250,9 +259,13 @@ public class ParametresVue extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(pnlControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblControles)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(162, Short.MAX_VALUE))
+            .addGroup(pnlControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlControleLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(tableControle, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         pnlControleLayout.setVerticalGroup(
             pnlControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,8 +274,12 @@ public class ParametresVue extends javax.swing.JDialog {
                 .addComponent(lblControles)
                 .addGap(5, 5, 5)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
+            .addGroup(pnlControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlControleLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(tableControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         Annuler.setText("Annuler");
@@ -290,27 +307,28 @@ public class ParametresVue extends javax.swing.JDialog {
         jLabel1.setText("VTPlayer");
 
         vtplayer.setText("Activé");
+        vtplayer.setToolTipText("Activer si vous possèdez la souris VTPlayer");
         vtplayer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 vtplayerActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlVTPlayerLayout = new javax.swing.GroupLayout(pnlVTPlayer);
+        pnlVTPlayer.setLayout(pnlVTPlayerLayout);
+        pnlVTPlayerLayout.setHorizontalGroup(
+            pnlVTPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVTPlayerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlVTPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(vtplayer)
                     .addComponent(jLabel1)
                     .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlVTPlayerLayout.setVerticalGroup(
+            pnlVTPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVTPlayerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -318,6 +336,40 @@ public class ParametresVue extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(vtplayer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        lblRedim.setText("Redimensionnement de la fenêtre");
+
+        checkBoxRedim.setText("Activé");
+        checkBoxRedim.setToolTipText("Affiche une fenêtre sans scrollbar");
+        checkBoxRedim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxRedimActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlRedimLayout = new javax.swing.GroupLayout(pnlRedim);
+        pnlRedim.setLayout(pnlRedimLayout);
+        pnlRedimLayout.setHorizontalGroup(
+            pnlRedimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRedimLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlRedimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblRedim)
+                    .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkBoxRedim))
+                .addContainerGap())
+        );
+        pnlRedimLayout.setVerticalGroup(
+            pnlRedimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRedimLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblRedim)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkBoxRedim)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -328,24 +380,31 @@ public class ParametresVue extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(Ok)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Annuler)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Appliquer))
+                        .addComponent(lblTitre)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTitre)
+                        .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(pnlNorme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(pnlSon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 20, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(Ok)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Annuler)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Appliquer))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pnlNorme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(pnlVTPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(pnlSon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pnlRedim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pnlControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,25 +419,32 @@ public class ParametresVue extends javax.swing.JDialog {
                         .addComponent(pnlSon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Annuler)
-                    .addComponent(Appliquer)
-                    .addComponent(Ok))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlVTPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pnlFrequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(106, 106, 106)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Ok)
+                                    .addComponent(Annuler)
+                                    .addComponent(Appliquer)))))
+                    .addComponent(pnlRedim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNormeEUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNormeEUActionPerformed
+        needRestart();
         parametresModele.setNorme("EU");
     }//GEN-LAST:event_btnNormeEUActionPerformed
 
     private void btnNormeUSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNormeUSActionPerformed
+        needRestart();
         parametresModele.setNorme("US");
     }//GEN-LAST:event_btnNormeUSActionPerformed
 
@@ -391,12 +457,6 @@ public class ParametresVue extends javax.swing.JDialog {
         parametresModele.setFreqPicots(text);
         lblValFrequence.setText(text);
     }//GEN-LAST:event_sliderFrequenceStateChanged
-
-    private void tableControleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableControleMouseClicked
-        
-        
-        tableControle.setValueAt(java.awt.event.KeyEvent.getKeyText(showKeyChooser(this)), tableControle.getSelectedRow(), 1);
-    }//GEN-LAST:event_tableControleMouseClicked
 
     private void AnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnnulerActionPerformed
         try {
@@ -412,6 +472,7 @@ public class ParametresVue extends javax.swing.JDialog {
             parametresModele.sauvegarder();
         } catch (java.io.IOException ex) {
             // TODO informer l'utilisateur qu'il y a eu une erreur
+            System.out.println("Erreur lors de la sauvegarde des paramètres");
             java.util.logging.Logger.getLogger(ParametresVue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_AppliquerActionPerformed
@@ -426,14 +487,66 @@ public class ParametresVue extends javax.swing.JDialog {
         parametresModele.setVTPlayerMouse(String.valueOf(vtplayer.isSelected()));
     }//GEN-LAST:event_vtplayerActionPerformed
 
+    private void tableControleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableControleMouseClicked
+        int key = showKeyChooser(this);
+        String touche = java.awt.event.KeyEvent.getKeyText(key);
+        int rowSelect = tableControle.getSelectedRow();
+
+
+        for (int i = 0; i < 5; i++) {
+            if (i != rowSelect && touche.equals(tableControle.getValueAt(i, 1))) {
+                System.out.println("NOOOON");
+                JOptionPane.showMessageDialog(this, "Touche déja utilisée pour une autre commande", "Veuillez choisir une autre touche", JOptionPane.INFORMATION_MESSAGE);
+                tableControleMouseClicked(evt);
+                return;
+            }
+        }
+
+        tableControle.setValueAt(touche, rowSelect, 1);
+
+
+        switch (rowSelect) {
+            case 0:
+                parametresModele.setKeySpatialization(String.valueOf(key));
+                break;
+            case 1:
+                parametresModele.setKeyRot(String.valueOf(key));
+                break;
+            case 2:
+                parametresModele.setKeyChangeBit(String.valueOf(key));
+                break;
+            case 3:
+                parametresModele.setKeySuppr(String.valueOf(key));
+                break;
+            case 4:
+                parametresModele.setKeyEchapement(String.valueOf(key));
+                break;
+        }
+    }//GEN-LAST:event_tableControleMouseClicked
+
+    private void checkBoxRedimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxRedimActionPerformed
+        needRestart();
+        parametresModele.setAutoResize(String.valueOf(checkBoxRedim.isSelected()));
+    }//GEN-LAST:event_checkBoxRedimActionPerformed
+
+    private void needRestart() {
+        if (restart) {
+            JOptionPane.showMessageDialog(this, "Le changement de cette option nécessite le redémarrage du programme", "Attention !", JOptionPane.INFORMATION_MESSAGE);
+            restart = false;
+        }
+
+    }
+    private boolean restart = true;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Annuler;
     private javax.swing.JButton Appliquer;
     private javax.swing.JButton Ok;
     private javax.swing.JRadioButton btnNormeEU;
     private javax.swing.JRadioButton btnNormeUS;
+    private javax.swing.JCheckBox checkBoxRedim;
     private javax.swing.JCheckBox checkboxSonActif;
     private javax.swing.JLabel lblValFrequence;
+    private javax.swing.JPanel pnlRedim;
     private javax.swing.JSlider sliderFrequence;
     private javax.swing.JTable tableControle;
     private javax.swing.JCheckBox vtplayer;

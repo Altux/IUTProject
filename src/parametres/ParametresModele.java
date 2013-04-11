@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class ParametresModele extends Config {
 
-    public final static String FICHIER = "config/parametre.ini";
+    public final static String FICHIER = "parametre.ini";
     protected String pathConfig;
     private Properties proprietes;
 
@@ -70,6 +70,15 @@ public class ParametresModele extends Config {
     public void setVTPlayerMouse(String vtpmouse) {
         proprietes.setProperty("VTPlayerMouse", vtpmouse);
     }
+    
+    @Override
+    public boolean getAutoResize() {
+        return Boolean.valueOf(proprietes.getProperty("AutoResize", "false"));
+    }
+
+    public void setAutoResize(String autoRz) {
+        proprietes.setProperty("AutoResize", autoRz);
+    }
 
     @Override
     public int getFrequencePicots() {
@@ -114,15 +123,6 @@ public class ParametresModele extends Config {
 
     public void setKeyChangeBit(String keyChgeBit) {
         proprietes.setProperty("KeyChangeBit", keyChgeBit);
-    }
-
-    @Override
-    public boolean getAutoResize() {
-        return Boolean.valueOf(proprietes.getProperty("AutoResize", "false"));
-    }
-
-    public void setAutoResize(String autoRz) {
-        proprietes.setProperty("AutoResize", autoRz);
     }
 
     @Override

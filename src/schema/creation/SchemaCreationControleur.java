@@ -171,20 +171,23 @@ public class SchemaCreationControleur extends SchemaControleur {
             // Si le code de l'image est différent de 0
             if (i != GestionaireFichier.EMPTY_PICTURE) {
                 // Déclaration d'une variable de type image
-                Image image;
+                Image image = null;
 
-//                for (i = (((((int) (i / 10 + 1)) * 10) + i % 10)); i < 10; i = (((((int) (i / 10 + 1)) * 10)))) {
-//                    
+                do {
+                    for (int r = ((((int) (i / 10)) % 10 + 1) == 10) ? 0 : (((int) (i / 10)) % 10 + 1); r < 10 && image == null; r++) {
+                        i = (((int) (i / 100)) * 10 + r) * 10 + i % 10;
+                        image = gf.getPicture(i);
+                    }
+                } while (image == null);
+
+//                //On incrémente de 1 le 3e chiffre du code qui est celui de la rotation.
+//                i = (((((int) (i / 10 + 1)) * 10) + i % 10));
+//
+//                // Si il n'y a pas d'image, on récupère l'image de base en changeant le chiffre de la rotation à 1
+//                if ((image = gf.getPicture(i)) == null) {
+//                    i = (((int) (i / 100)) * 10 + 1) * 10 + i % 10;
+//                    image = gf.getPicture(i);
 //                }
-
-                //On incrémente de 1 le 3e chiffre du code qui est celui de la rotation.
-                i = (((((int) (i / 10 + 1)) * 10) + i % 10));
-
-                // Si il n'y a pas d'image, on récupère l'image de base en changeant le chiffre de la rotation à 1
-                if ((image = gf.getPicture(i)) == null) {
-                    i = (((int) (i / 100)) * 10 + 1) * 10 + i % 10;
-                    image = gf.getPicture(i);
-                }
 
                 newPicture = new Picture(image, i);
 
@@ -199,15 +202,23 @@ public class SchemaCreationControleur extends SchemaControleur {
                 // Si le code de l'image est différent de 0
                 if (i != GestionaireFichier.EMPTY_PICTURE) {
                     // Déclaration d'une variable de type image
-                    Image image;
-                    //On incrémente de 1 le 3e chiffre du code qui est celui de la rotation
-                    i = ((((int) i / 10 + 1) * 10) + i % 10);
+                    Image image = null;
 
-                    // Si il n'y a pas d'image, on récupère l'image de base en changeant le chiffre de la rotation à 1
-                    if ((image = gf.getPicture(i)) == null) {
-                        i = (((int) (i / 100)) * 10 + 1) * 10 + i % 10;
-                        image = gf.getPicture(i);
-                    }
+                    do {
+                        for (int r = ((((int) (i / 10)) % 10 + 1) == 10) ? 0 : (((int) (i / 10)) % 10 + 1); r < 10 && image == null; r++) {
+                            i = (((int) (i / 100)) * 10 + r) * 10 + i % 10;
+                            image = gf.getPicture(i);
+                        }
+                    } while (image == null);
+                    
+//                    //On incrémente de 1 le 3e chiffre du code qui est celui de la rotation
+//                    i = ((((int) i / 10 + 1) * 10) + i % 10);
+//
+//                    // Si il n'y a pas d'image, on récupère l'image de base en changeant le chiffre de la rotation à 1
+//                    if ((image = gf.getPicture(i)) == null) {
+//                        i = (((int) (i / 100)) * 10 + 1) * 10 + i % 10;
+//                        image = gf.getPicture(i);
+//                    }
 
                     old_focused.setCode(i);
                     old_focused.setImage(image);

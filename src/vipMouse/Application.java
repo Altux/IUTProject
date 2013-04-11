@@ -106,6 +106,7 @@ public class Application extends JFrame implements ActionListener, Observer {
         // création de la barre de menu.
         menuBarre = new MenuBarre(config);
         menuBarre.addActionListener(this);
+        config.addObserver(menuBarre);
         setJMenuBar(menuBarre);
 
         setVisible(true);
