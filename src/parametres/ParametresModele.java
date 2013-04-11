@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class ParametresModele extends Config {
 
-    public final static String FICHIER = "parametre.ini";
+    public final static String FICHIER = "config/parametre.ini";
     protected String pathConfig;
     private Properties proprietes;
 

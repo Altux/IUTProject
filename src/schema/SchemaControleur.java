@@ -27,14 +27,14 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
 
     protected VTPlayerInterface vtp;
     protected HashMap<Integer, Byte[]> bytes;
-    protected /*LecteurTexteThread*/ SpeakToMe stm;
+    protected SpeakToMe stm;
     protected HashMap<Integer, String> sentence;
     protected Picture lastEntered = null;
     protected SchemaVue sv;
     protected boolean son;
     protected int frequence;
 
-    public SchemaControleur(VTPlayerInterface vtp, HashMap<Integer, Byte[]> bytes, SchemaVue shV, /*LecteurTexteThread*/ SpeakToMe stm, HashMap<Integer, String> sentence, Config configuration) {
+    public SchemaControleur(VTPlayerInterface vtp, HashMap<Integer, Byte[]> bytes, SchemaVue shV, SpeakToMe stm, HashMap<Integer, String> sentence, Config configuration) {
         this.vtp = vtp;
         this.bytes = bytes;
         this.stm = stm;
@@ -63,6 +63,7 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
         }
 
         SwingUtilities.invokeLater(new Runnable() {
+
             @Override
             public void run() {
                 if (son && stm != null && sentence != null) {
@@ -93,7 +94,7 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
             nbligtotal++;
         }
 
-        return new Point((lastEntered.getLig() - 1) / Math.round(nbligtotal / 4), (lastEntered.getCol() - 1) / Math.round(nbcoltotal / 4));
+        return new Point(lastEntered.getLig() / Math.round(nbligtotal / 4), lastEntered.getCol() / Math.round(nbcoltotal / 4));
     }
 
     @Override
@@ -123,11 +124,12 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
             //pour avoir la colonne tableau [0] pour la ligne tableau [1]
             //position de la zone avec le synthése vocal :
             SwingUtilities.invokeLater(new Runnable() {
+
                 @Override
                 public void run() {
                     System.out.println("read position");
                     if (stm != null) {
-                        stm.positionnement(position_zone/*[0], position_zone[1]*/);
+                        stm.positionnement(position_zone);
                         stm.playAll();
                     }
                 }

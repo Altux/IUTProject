@@ -1,5 +1,6 @@
 package vipMouse;
 
+import credit.Credit;
 import parametres.Config;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -493,7 +494,7 @@ public class Application extends JFrame implements ActionListener, Observer {
     }
 
     private void about() {
-        
+        JOptionPane.showMessageDialog(this, new Credit(), "A propos", JOptionPane.PLAIN_MESSAGE);
     }
     
     @Override
