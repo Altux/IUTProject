@@ -172,6 +172,11 @@ public class SchemaCreationControleur extends SchemaControleur {
             if (i != GestionaireFichier.EMPTY_PICTURE) {
                 // Déclaration d'une variable de type image
                 Image image;
+
+//                for (i = (((((int) (i / 10 + 1)) * 10) + i % 10)); i < 10; i = (((((int) (i / 10 + 1)) * 10)))) {
+//                    
+//                }
+
                 //On incrémente de 1 le 3e chiffre du code qui est celui de la rotation.
                 i = (((((int) (i / 10 + 1)) * 10) + i % 10));
 

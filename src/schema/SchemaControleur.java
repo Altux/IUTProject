@@ -148,14 +148,12 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o.hasChanged()) {
-            if (o instanceof Config) {
-                Config config = (Config) o;
-                son = config.getSon();
-                frequence = config.getFrequencePicots();
-            } else if (o instanceof ParametreurModele && arg instanceof HashMap) {
-                bytes = (HashMap<Integer, Byte[]>) arg;
-            }
+        if (o instanceof Config) {
+            Config config = (Config) o;
+            son = config.getSon();
+            frequence = config.getFrequencePicots();
+        } else if (o instanceof ParametreurModele && arg instanceof HashMap) {
+            bytes = (HashMap<Integer, Byte[]>) arg;
         }
     }
 }

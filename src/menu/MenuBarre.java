@@ -76,7 +76,7 @@ public class MenuBarre extends JMenuBar implements MenuAction, CreationAction, S
         edit.setMnemonic(KeyEvent.VK_E);
         add(edit);
 
-        spatialization = new JMenuItem("Spacailisation");
+        spatialization = new JMenuItem("Spatialisation");
         spatialization.setMnemonic(KeyEvent.VK_S);
         spatialization.setActionCommand(AC_SPATIALIZATION);
         spatialization.setAccelerator(KeyStroke.getKeyStroke(config.getKeySpatialization(), 0));
@@ -204,7 +204,6 @@ public class MenuBarre extends JMenuBar implements MenuAction, CreationAction, S
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o.hasChanged()) {
             if (o instanceof Config) {
                 Config config = (Config) o;
                 rotate.setAccelerator(KeyStroke.getKeyStroke(config.getKeyRotation(), 0));
@@ -213,6 +212,5 @@ public class MenuBarre extends JMenuBar implements MenuAction, CreationAction, S
                 escape.setAccelerator(KeyStroke.getKeyStroke(config.getKeyEchapement(), 0));
                 spatialization.setAccelerator(KeyStroke.getKeyStroke(config.getKeySpatialization(), 0));
             }
-        }
     }
 }

@@ -147,6 +147,10 @@ public class Application extends JFrame implements ActionListener, Observer {
             case MenuAction.AC_PREFERENCE:
                 preference();
                 break;
+                
+            case MenuAction.AC_ABOUT:
+                about();
+                break;
 
             case MenuAction.AC_EXIT:
                 this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
@@ -451,10 +455,11 @@ public class Application extends JFrame implements ActionListener, Observer {
             apply.setActionCommand(ParametreurVue.ACTION_COMMAND_SAVE);
             apply.addActionListener(controleur);
 
-            Object[] selValues = {"Sauvegarder", "Annuler", apply};
+            Object[] selValues = {"Valider", apply, "Annuler"};
 
             modele.addObserver(this);
             if (schemaControleur != null) {
+                System.out.println("add observeur to controleur schema");
                 modele.addObserver(schemaControleur);
             }
 
@@ -471,7 +476,7 @@ public class Application extends JFrame implements ActionListener, Observer {
                 }
             }
 
-            modele.deleteObservers();
+            //modele.deleteObservers();
         } catch (FileNotFoundException ex) {
             // TODO informer utilisateur
             Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
@@ -486,29 +491,31 @@ public class Application extends JFrame implements ActionListener, Observer {
         parametresVue.setVisible(true);
     }
 
+    private void about() {
+        
+    }
+    
     @Override
     public void update(Observable o, Object arg) {
-        if (o.hasChanged()) {
-            if (o instanceof Config) {
-                try {
-                    if (((Config) o).getVTPlayerMouse()) {
-                        if (!vtp.isOpen()) {
-                            VTPlayerManager.open(vtp);
-                        }
-                    } else {
-                        if (vtp.isOpen()) {
-                            vtp.close();
-                        }
+        if (o instanceof Config) {
+            try {
+                if (((Config) o).getVTPlayerMouse()) {
+                    if (!vtp.isOpen()) {
+                        VTPlayerManager.open(vtp);
                     }
-                } catch (VTPlayerException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Erreur souris VTPlayer", JOptionPane.ERROR_MESSAGE);
-                    Logger.getLogger(Application.class
-                            .getName()).log(Level.WARNING, null, ex);
+                } else {
+                    if (vtp.isOpen()) {
+                        vtp.close();
+                    }
                 }
-            } else if (o instanceof ParametreurModele) {
-                if (arg != null) {
-                    bytesConfig = (HashMap<Integer, Byte[]>) arg;
-                }
+            } catch (VTPlayerException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Erreur souris VTPlayer", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(Application.class
+                        .getName()).log(Level.WARNING, null, ex);
+            }
+        } else if (o instanceof ParametreurModele) {
+            if (arg != null) {
+                bytesConfig = (HashMap<Integer, Byte[]>) arg;
             }
         }
     }

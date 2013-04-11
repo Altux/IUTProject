@@ -43,11 +43,6 @@ public class ParametreurVue extends JPanel {
          * Texte descriptif de l'élément a paramétré.
          */
         JLabel jLabel = new JLabel();
-        
-//        /**
-//         * Sauvegarde les changements.
-//         */
-//        JButton jButton = new JButton("Sauvegarder");
 
         /**
          * Constructeur du menu, Attention doit être ensuite initialiser pour 
@@ -65,7 +60,6 @@ public class ParametreurVue extends JPanel {
             // ajout des composants
             add(comboBox, BorderLayout.WEST);
             add(jLabel, BorderLayout.CENTER);
-//            add(jButton, BorderLayout.EAST);
             
             // ajout des items a la JComboBox
             for (Integer i : arrayList) {
@@ -73,7 +67,6 @@ public class ParametreurVue extends JPanel {
             }
             
             // association des actions au constante
-//            jButton.setActionCommand(ACTION_COMMAND_SAVE);
             comboBox.setActionCommand(ACTION_COMMAND_INDEX_CHANGE);
         }
          
@@ -88,7 +81,6 @@ public class ParametreurVue extends JPanel {
         
        public synchronized void  addActionListener(ActionListener l){
            comboBox.addActionListener(l);
-//           jButton.addActionListener(l);
        }
        
        /**
@@ -96,7 +88,7 @@ public class ParametreurVue extends JPanel {
         * 
         * @return l'index de la description.
         */
-       public Integer getSelectedItem(){
+       public Integer getSelectedItem() {
            return (Integer) comboBox.getSelectedItem();
        }
     }
