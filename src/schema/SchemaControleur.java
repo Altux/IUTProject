@@ -62,17 +62,16 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
             }
         }
 
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                if (son && stm != null && sentence != null) {
+        if (son && stm != null && sentence != null) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
                     stm.setTexte(sentence.get(code / 100));
                     stm.playAll();
                     //System.out.println("we try to read the text " + sentence.get(code));
                 }
-            }
-        });
+            });
+        }
 
         System.out.println(code);
     }
@@ -124,7 +123,6 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
             //pour avoir la colonne tableau [0] pour la ligne tableau [1]
             //position de la zone avec le synthése vocal :
             SwingUtilities.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
                     System.out.println("read position");
