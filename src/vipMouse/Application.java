@@ -96,7 +96,7 @@ public class Application extends JFrame implements ActionListener, Observer {
             try {
                 VTPlayerManager.open(vtp);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Erreur lors du chrgement des ressource pour la souris.", "Erreur VTPlayer", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Erreur lors du chargement des ressource pour la souris.", "Erreur VTPlayer", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -512,8 +512,8 @@ public class Application extends JFrame implements ActionListener, Observer {
                         vtp.close();
                     }
                 }
-            } catch (VTPlayerException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Erreur souris VTPlayer", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erreur lors du chargement des ressource pour la souris.", "Erreur souris VTPlayer", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(Application.class
                         .getName()).log(Level.WARNING, null, ex);
             }
