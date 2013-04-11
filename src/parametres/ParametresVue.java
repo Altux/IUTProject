@@ -472,7 +472,7 @@ public class ParametresVue extends javax.swing.JDialog {
             parametresModele.sauvegarder();
         } catch (java.io.IOException ex) {
             // TODO informer l'utilisateur qu'il y a eu une erreur
-            System.out.println("Erreur lors de la sauvegarde des paramètres");
+            //System.out.println("Erreur lors de la sauvegarde des paramètres");
             java.util.logging.Logger.getLogger(ParametresVue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_AppliquerActionPerformed
@@ -495,7 +495,7 @@ public class ParametresVue extends javax.swing.JDialog {
 
         for (int i = 0; i < 5; i++) {
             if (i != rowSelect && touche.equals(tableControle.getValueAt(i, 1))) {
-                System.out.println("NOOOON");
+                //System.out.println("NOOOON");
                 JOptionPane.showMessageDialog(this, "Touche déja utilisée pour une autre commande", "Veuillez choisir une autre touche", JOptionPane.INFORMATION_MESSAGE);
                 tableControleMouseClicked(evt);
                 return;

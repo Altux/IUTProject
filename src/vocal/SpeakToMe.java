@@ -14,7 +14,7 @@ public class SpeakToMe extends t2s.son.LecteurTexte {
     protected static String[] tabAlphabet = {"A", "B", "C", "Dé", "E", "F", "G", "H", "I", "J", "K", "L", "aime", "haineu", "eau", "Pé", "Cul", "aire", "aisse", "Té", "U", "V", "W", "ixe", "igrec", "Z"};
 
 //    public void playTexteLater(String str) {
-//        if (str != null) {
+//        if (str != null && !str.isEmpty()) {
 //            setTexte(str);
 //            SwingUtilities.invokeLater(new Runnable() {
 //                @Override

@@ -116,7 +116,7 @@ public class Application extends JFrame implements ActionListener, Observer {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
+        //System.out.println(e.getActionCommand());
 
         switch (e.getActionCommand()) {
             case MenuAction.AC_OPEN:
@@ -282,7 +282,7 @@ public class Application extends JFrame implements ActionListener, Observer {
      * permet de rendre les objet élisible au {@link }
      */
     private void unlink() {
-        System.out.println("unlink");
+        //System.out.println("unlink");
         if (schemaVue != null) {
             config.deleteObserver(schemaControleur);
             menuBarre.removeActionListener(schemaControleur);
@@ -300,7 +300,7 @@ public class Application extends JFrame implements ActionListener, Observer {
      *
      */
     private void link() {
-        System.out.println("link");
+        //System.out.println("link");
         if (schemaVue != null) {
             config.addObserver(schemaControleur);
             menuBarre.addActionListener(schemaControleur);
@@ -462,7 +462,7 @@ public class Application extends JFrame implements ActionListener, Observer {
 
             modele.addObserver(this);
             if (schemaControleur != null) {
-                System.out.println("add observeur to controleur schema");
+                //System.out.println("add observeur to controleur schema");
                 modele.addObserver(schemaControleur);
             }
 
@@ -500,7 +500,7 @@ public class Application extends JFrame implements ActionListener, Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("application update");
+        //System.out.println("application update");
         if (o instanceof Config) {
             try {
                 if (((Config) o).getVTPlayerMouse()) {
@@ -525,9 +525,6 @@ public class Application extends JFrame implements ActionListener, Observer {
     }
 
     public static void main(String args[]) {
-        for (String string : args) {
-            System.out.println(string);
-        }
         try {
             Application application = new Application();
             if (args.length >= 1) {

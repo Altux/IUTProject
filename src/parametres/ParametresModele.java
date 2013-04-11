@@ -42,7 +42,7 @@ public class ParametresModele extends Config {
 
         setChanged();
         notifyObservers();
-        System.out.println("Mise à jour effectuée");
+        //System.out.println("Mise à jour effectuée");
     }
 
     @Override

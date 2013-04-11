@@ -66,14 +66,17 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    stm.setTexte(sentence.get(code / 100));
-                    stm.playAll();
-                    //System.out.println("we try to read the text " + sentence.get(code));
+                    String text = sentence.get(code / 100);
+                    if (text != null) {
+                        //System.out.println("read text" + sentence.get(code / 100));
+                        stm.setTexte(text);
+                        stm.playAll();
+                    }
                 }
             });
         }
 
-        System.out.println(code);
+        //System.out.println(code);
     }
 
     protected Point getZone() {
@@ -117,15 +120,23 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(SchemaAction.AC_SPATIALIZATION) && lastEntered != null) {
             //System.out.println(" ligne :" + lastEntered.getLig() + " colonne : " + lastEntered.getCol());
-            //int[] position_zone = getZone();
             final Point position_zone = getZone();
+
+            if (vtp != null && vtp.isOpen()) {
+                try {
+                    //position de la zone avec la souri : 
+                    vtp.setRight(ByteUtilitaire.position_to_byte(position_zone), frequence);
+                } catch (VTPlayerException ex) {
+                    Logger.getLogger(SchemaControleur.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
 
             //pour avoir la colonne tableau [0] pour la ligne tableau [1]
             //position de la zone avec le synthése vocal :
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("read position");
+                    //System.out.println("read position");
                     if (stm != null) {
                         stm.positionnement(position_zone);
                         stm.playAll();
@@ -134,15 +145,6 @@ public class SchemaControleur extends MouseAdapter implements Observer, ActionLi
             });
 
             //System.out.println("l = " + position_zone[0] + " c = " + position_zone[1]);
-            if (vtp != null && vtp.isOpen()) {
-                try {
-                    //position de la zone avec la souri : 
-                    vtp.setRight(ByteUtilitaire.position_to_byte(position_zone), frequence);
-                } catch (VTPlayerException ex) {
-                    // TODO informer l'utilisateur de l'erreur
-                    Logger.getLogger(SchemaControleur.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 

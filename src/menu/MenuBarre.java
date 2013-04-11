@@ -204,7 +204,7 @@ public class MenuBarre extends JMenuBar implements MenuAction, CreationAction, S
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("barre menu update");
+        //System.out.println("barre menu update");
         if (o instanceof Config) {
             Config config = (Config) o;
             rotate.setAccelerator(KeyStroke.getKeyStroke(config.getKeyRotation(), 0));
