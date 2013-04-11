@@ -16,17 +16,17 @@ public class Credit extends JPanel {
         JLabel theLabel = new JLabel(readFile()) {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(600, 600);
+                return new Dimension(500, 550);
             }
 
             @Override
             public Dimension getMinimumSize() {
-                return new Dimension(600, 600);
+                return new Dimension(500, 550);
             }
 
             @Override
             public Dimension getMaximumSize() {
-                return new Dimension(600, 600);
+                return new Dimension(500, 550);
             }
         };
 
@@ -43,7 +43,7 @@ public class Credit extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.drawImage(iutLogo, 350, 30, null);
+        g.drawImage(iutLogo, 350, 10, null);
     }
 
     static String readFile() {
