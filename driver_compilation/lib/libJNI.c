@@ -35,7 +35,7 @@ JNIEXPORT void JNICALL Java_vtplayer_linux_VTPlayer_vtplayer_1set__BBBB(JNIEnv *
 	vtplayer_set_thread(_b1, _b2, _b3, _b4, NULL_BYTE, NULL_BYTE, NULL_BYTE, NULL_BYTE, NOT_SET_CONFIG);
 }
 
-JNIEXPORT void JNICALL Java_vtplayer_linux_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *_env, jclass _ignore, jbyte _b1, jbyte _b2, jbyte _b3, jbyte _b4, jbyte _b5, jbyte _b6, jbyte _b7, jbyte _b8, jint _ecart){
+JNIEXPORT void JNICALL Java_vtplayer_linux_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *_env, jclass _ignore, jbyte _b1, jbyte _b2, jbyte _b3, jbyte _b4, jbyte _b5, jbyte _b6, jbyte _b7, jbyte _b8, jlong _ecart){
 	vtplayer_set_thread (_b1, _b2, _b3, _b4, _b5, _b6, _b7, _b8, _ecart);
 }
 
@@ -65,7 +65,7 @@ JNIEXPORT void JNICALL Java_vtplayer_windows_VTPlayer_vtplayer_1set__BBBB(JNIEnv
     vtplayer_set_thread(_b1, _b2, _b3, _b4, NULL_BYTE, NULL_BYTE, NULL_BYTE, NULL_BYTE, NOT_SET_CONFIG);
 }
 
-JNIEXPORT void JNICALL Java_vtplayer_windows_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *_env, jclass _ignore, jbyte _b1, jbyte _b2, jbyte _b3, jbyte _b4, jbyte _b5, jbyte _b6, jbyte _b7, jbyte _b8, jint _ecart) {
+JNIEXPORT void JNICALL Java_vtplayer_windows_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *_env, jclass _ignore, jbyte _b1, jbyte _b2, jbyte _b3, jbyte _b4, jbyte _b5, jbyte _b6, jbyte _b7, jbyte _b8, jlong _ecart) {
     vtplayer_set_thread(_b1, _b2, _b3, _b4, _b5, _b6, _b7, _b8, _ecart);
 }
 

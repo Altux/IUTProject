@@ -10,6 +10,7 @@ import java.util.Observer;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import schema.SchemaAction;
 import schema.creation.CreationAction;
@@ -146,6 +147,13 @@ public class MenuBarre extends JMenuBar implements MenuAction, CreationAction, S
         JMenu help = new JMenu("Aide");
         help.setMnemonic(KeyEvent.VK_A);
         add(help);
+
+
+        JMenuItem manuel = new JMenuItem("Aide");
+        manuel.setMnemonic(KeyEvent.VK_A);
+        manuel.setActionCommand(AC_HELP);
+        help.add(manuel);
+        menuItems.add(manuel);
 
         JMenuItem about = new JMenuItem("A propos");
         about.setMnemonic(KeyEvent.VK_A);

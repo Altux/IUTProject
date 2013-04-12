@@ -46,4 +46,6 @@ public interface MenuAction {
      *
      */
     public final static String AC_DOWNFROMCREATION = "#AC_DOWNFROMCREATION";
+    
+    public final static String AC_HELP = "#AC_HELP";
 }

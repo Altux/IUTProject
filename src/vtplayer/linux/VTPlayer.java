@@ -38,7 +38,7 @@ public class VTPlayer extends VTPlayerImpl {
 
     private static native void vtplayer_set(byte b1, byte b2, byte b3, byte b4);
 
-    private static native void vtplayer_set(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8, int ecart);
+    private static native void vtplayer_set(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8, long ecart);
 
     private static native int vtplayer_release_mouse();
 

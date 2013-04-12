@@ -50,7 +50,7 @@ JNIEXPORT void JNICALL Java_vtplayer_linux_VTPlayer_vtplayer_1set__BBBB(JNIEnv *
  * Method:    vtplayer_set
  * Signature: (BBBBBBBBJ)V
  */
-JNIEXPORT void JNICALL Java_vtplayer_linux_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *, jclass, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jint);
+JNIEXPORT void JNICALL Java_vtplayer_linux_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *, jclass, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jlong);
 
 /*
  * Class:     vtplayer_linux_VTPlayer
@@ -100,7 +100,7 @@ JNIEXPORT void JNICALL Java_vtplayer_linux_VTPlayer_vtplayer_1stop_1thread(JNIEn
      * Method:    vtplayer_set
      * Signature: (BBBBBBBBJ)I
      */
-    JNIEXPORT void JNICALL Java_vtplayer_windows_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *, jclass, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jint);
+    JNIEXPORT void JNICALL Java_vtplayer_windows_VTPlayer_vtplayer_1set__BBBBBBBBJ(JNIEnv *, jclass, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jbyte, jlong);
 
     /*
      * Class:     vtplayer_windows_VTPlayer

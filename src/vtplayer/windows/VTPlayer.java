@@ -61,7 +61,7 @@ public class VTPlayer extends VTPlayerImpl {
      * @param b5, b6, b7, b8
      * @param ecart
      */
-    private static native void vtplayer_set(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8, int ecart);
+    private static native void vtplayer_set(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8, long ecart);
 
     /**
      *

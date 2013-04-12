@@ -1,6 +1,7 @@
 package vipMouse;
 
 import credit.Credit;
+import java.awt.Desktop;
 import parametres.Config;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -91,7 +93,7 @@ public class Application extends JFrame implements ActionListener, Observer {
         // Chargement des dépendances de la souris.
         bytesConfig = ParametreurModele.loadPicotFile();
         vtp = VTPlayerManager.getInstance();
-        
+
         if (config.getVTPlayerMouse()) {
             try {
                 VTPlayerManager.open(vtp);
@@ -150,9 +152,13 @@ public class Application extends JFrame implements ActionListener, Observer {
             case MenuAction.AC_PREFERENCE:
                 preference();
                 break;
-                
+
             case MenuAction.AC_ABOUT:
                 about();
+                break;
+                
+            case MenuAction.AC_HELP:
+                help();
                 break;
 
             case MenuAction.AC_EXIT:
@@ -497,7 +503,26 @@ public class Application extends JFrame implements ActionListener, Observer {
     private void about() {
         JOptionPane.showMessageDialog(this, new Credit(), "A propos", JOptionPane.PLAIN_MESSAGE);
     }
-    
+
+    private void help() {
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            File file = new File("help/chm/Unik Sound Tactil Display.chm");
+            try {
+                Runtime.getRuntime().exec("HH.EXE ms-its:" + file.getAbsolutePath() + "::/Sommaire.html");
+            } catch (IOException ex) {
+                Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                //System.out.println("try to open file");
+                // TODO Bug to fixe
+                Desktop.getDesktop().open(new File("help/pdf/USTD.pdf"));
+            } catch (IOException ex) {
+                Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         //System.out.println("application update");
