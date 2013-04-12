@@ -302,6 +302,7 @@ public class SchemaCreationControleur extends SchemaControleur {
                 // on remplace l'image est le code de celle-ci par celle séléctionnée
                 pc.setCode(i);
                 pc.setImage(newPicture.getImage());
+                sv.setHaveChange(true);
             } else {
                 // sinon on met le focus dessus
                 setFocusOn(pc);
